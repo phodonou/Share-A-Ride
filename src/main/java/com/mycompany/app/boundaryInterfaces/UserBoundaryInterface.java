@@ -1,12 +1,22 @@
 package com.mycompany.app.boundaryInterfaces;
 
+import java.util.*;
+
 import com.mycompany.app.models.Rating;
 import com.mycompany.app.models.User;
 
 //interface to manage everything user related
 public interface UserBoundaryInterface {
 
-    String createAccount (User user);
+    boolean updateAccount(User user, int aid);
+
+    boolean confirmAccount(int aid);
+
+    boolean deleteAccount(int aid);
+
+    List<User> accounts();
+
+    int createAccount(User user);
 
     void createRating(Rating rating, String aid);
 

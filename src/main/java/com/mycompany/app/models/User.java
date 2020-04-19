@@ -12,18 +12,10 @@ public class User {
     private boolean isActive;
     private Rating[] ratings;
 
-    void confirmAccount() {
-        isActive = true;
+    public User() {
     }
 
-    public User(){}
-
-    public User(
-        String firstName, 
-        String lastName, 
-        String cellPhone, 
-        String picture, 
-        boolean isActive) {
+    public User(String firstName, String lastName, String cellPhone, String picture, boolean isActive) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.cellPhone = cellPhone;
@@ -60,14 +52,26 @@ public class User {
         return ratings;
     }
 
+    public int getAid() {
+        return aid;
+    }
+
     public int setAid() {
         int id = UniqueIdGenerator.getUniqueID();
         this.aid = id;
         return id;
     }
 
+    public void replaceAid(int aid){
+     this.aid = aid;
+    }
+
     public void setRatings(Rating[] ratings) {
         this.ratings = ratings;
+    }
+
+    public void confirmAccount() {
+        isActive = true;
     }
 
     @Override
