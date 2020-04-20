@@ -14,7 +14,9 @@ public interface UserBoundaryInterface {
 
     boolean deleteAccount(int aid);
 
-    List<User> accounts();
+    List<Map<String, Object>> accounts();
+
+    Map<String, Object> account(int aid);
 
     int createAccount(User user);
 

@@ -1,7 +1,10 @@
 package com.mycompany.app.repositories;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONObject;
 
 import com.mycompany.app.models.Rating;
 import com.mycompany.app.models.User;
@@ -16,6 +19,9 @@ public class UserRepository implements UserBoundaryInterface {
     @Override
     public int createAccount(User user) {
         int aid = user.setAid();
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy, HH:mm:ss");
+        user.setDateCreated(dtf.format(dateTime));
         users.add(user);
         return aid;
     }
@@ -49,9 +55,23 @@ public class UserRepository implements UserBoundaryInterface {
     }
 
     @Override
-    public List<User> accounts(){
-        return users;
+    public List<Map<String, Object>> accounts() {
+        List<Map<String, Object>> usersJson = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < users.size(); i++) {
+            usersJson.add(jsonUser(users.get(i)).toMap());
+        }
+        return usersJson;
     }
+
+    @Override
+    public Map<String, Object> account(int aid){
+        User user = getUser(aid);
+        if (user == null)
+            return null;
+        return jsonUser(user).toMap();
+    }
+
+
 
     @Override
     public void createRating(Rating rating, String aid) {
@@ -79,6 +99,15 @@ public class UserRepository implements UserBoundaryInterface {
             }
         }
         return null;
+    }
+
+    JSONObject jsonUser(User user) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("aid", user.getAid());
+        jsonObject.put("name", user.getFirstName() + " " + user.getLastName());
+        jsonObject.put("date_created", user.getDateCreated());
+        jsonObject.put("is_active", user.getIsActive());
+        return jsonObject;
     }
 
 }

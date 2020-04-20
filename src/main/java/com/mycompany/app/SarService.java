@@ -31,8 +31,8 @@ public class SarService {
     @Path("/accounts")
     public Response createAccount(User user) {
         int aid = userRepo.createAccount(user);
-        String jsonString = (new JSONObject().put("aid", aid)).toString();
-        return Response.ok(jsonString, MediaType.APPLICATION_JSON).build();
+        JSONObject jsonObject = (new JSONObject().put("aid", aid));
+        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
     }
 
     @PUT
@@ -71,8 +71,19 @@ public class SarService {
     @Path("/accounts")
     @Produces(MediaType.APPLICATION_JSON)
     public Response accounts() {
-        List<User> users = userRepo.accounts();
+        List<Map<String, Object>> users = userRepo.accounts();
         return Response.ok(users, MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Timed
+    @Path("/accounts/{aid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response account(@PathParam("aid") int aid) {
+        Map<String, Object> jsonUser = userRepo.account(aid);
+        if (jsonUser == null)
+            return Response.status(Status.NOT_FOUND).build();
+        return Response.ok(jsonUser, MediaType.APPLICATION_JSON).build();
     }
 
 }

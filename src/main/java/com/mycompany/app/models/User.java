@@ -11,6 +11,7 @@ public class User {
     private String picture;
     private boolean isActive;
     private Rating[] ratings;
+    private String dateCreated;
 
     public User() {
     }
@@ -62,8 +63,16 @@ public class User {
         return id;
     }
 
-    public void replaceAid(int aid){
-     this.aid = aid;
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public void replaceAid(int aid) {
+        this.aid = aid;
     }
 
     public void setRatings(Rating[] ratings) {
