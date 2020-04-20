@@ -70,8 +70,8 @@ public class SarService {
     @Timed
     @Path("/accounts")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response accounts() {
-        List<Map<String, Object>> users = userRepo.accounts();
+    public Response accounts(@QueryParam("key") String key) {
+        List<Map<String, Object>> users = userRepo.accounts(key);
         return Response.ok(users, MediaType.APPLICATION_JSON).build();
     }
 

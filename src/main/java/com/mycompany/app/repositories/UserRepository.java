@@ -55,23 +55,31 @@ public class UserRepository implements UserBoundaryInterface {
     }
 
     @Override
-    public List<Map<String, Object>> accounts() {
-        List<Map<String, Object>> usersJson = new ArrayList<Map<String, Object>>();
-        for (int i = 0; i < users.size(); i++) {
-            usersJson.add(jsonUser(users.get(i)).toMap());
+    public List<Map<String, Object>> accounts(String key) {
+        if (key == null) {
+            List<Map<String, Object>> usersJson = new ArrayList<Map<String, Object>>();
+            for (int i = 0; i < users.size(); i++) {
+                usersJson.add(jsonUser(users.get(i)).toMap());
+            }
+            return usersJson;
+        } else {
+            List<Map<String, Object>> usersJson = new ArrayList<Map<String, Object>>();
+            List<User> users = getUsers(key);
+            for (User user : users) {
+                usersJson.add(jsonUser(user).toMap());
+            }
+            return usersJson;
         }
-        return usersJson;
+
     }
 
     @Override
-    public Map<String, Object> account(int aid){
+    public Map<String, Object> account(int aid) {
         User user = getUser(aid);
         if (user == null)
             return null;
         return jsonUser(user).toMap();
     }
-
-
 
     @Override
     public void createRating(Rating rating, String aid) {
@@ -87,18 +95,31 @@ public class UserRepository implements UserBoundaryInterface {
 
     @Override
     public boolean sendMessageNotification(User person) {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     User getUser(int aid) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
+        for (User user : this.users) {
             if (user.getAid() == aid) {
                 return user;
             }
         }
         return null;
+    }
+
+    List<User> getUsers(String key) {
+        ArrayList<User> users = new ArrayList<User>();
+        String processedKey = key.trim().toLowerCase();
+        for (User user : this.users) {
+            String processedFirstName = user.getFirstName().trim().toLowerCase();
+            String processedLastName = user.getLastName().trim().toLowerCase();
+            String processedCellPhone = user.getCellPhone().trim().toLowerCase();
+            if (processedFirstName.equals(processedKey) || processedLastName.equals(processedKey)
+                    || processedCellPhone.equals(processedKey)) {
+                users.add(user);
+            }
+        }
+        return users;
     }
 
     JSONObject jsonUser(User user) {
