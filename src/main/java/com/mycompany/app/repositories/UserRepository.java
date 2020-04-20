@@ -19,6 +19,7 @@ public class UserRepository implements UserBoundaryInterface {
     @Override
     public int createAccount(User user) {
         int aid = user.setAid();
+        user.setRating(new ArrayList<Rating>());
         LocalDateTime dateTime = LocalDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy, HH:mm:ss");
         user.setDateCreated(dtf.format(dateTime));
@@ -82,9 +83,16 @@ public class UserRepository implements UserBoundaryInterface {
     }
 
     @Override
-    public void createRating(Rating rating, String aid) {
-        // TODO Auto-generated method stub
-
+    public int createRating(Rating rating, int aid) {
+        User user = getUser(aid);
+        if (user == null)
+            return -1;
+        int sid = rating.setSid();
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy, HH:mm:ss");
+        rating.setRatingDate(dtf.format(dateTime));
+        user.addRating(rating);
+        return sid;
     }
 
     @Override

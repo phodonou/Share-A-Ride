@@ -1,5 +1,7 @@
 package com.mycompany.app.models;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mycompany.app.utilities.UniqueIdGenerator;
 
@@ -10,7 +12,7 @@ public class User {
     private String cellPhone;
     private String picture;
     private boolean isActive;
-    private Rating[] ratings;
+    private ArrayList<Rating> ratings;
     private String dateCreated;
 
     public User() {
@@ -49,7 +51,7 @@ public class User {
         return isActive;
     }
 
-    public Rating[] getRatings() {
+    public ArrayList<Rating> getRatings() {
         return ratings;
     }
 
@@ -71,12 +73,16 @@ public class User {
         this.dateCreated = dateCreated;
     }
 
+    public void setRating(ArrayList<Rating> ratings){
+        this.ratings = ratings;
+    }
+
     public void replaceAid(int aid) {
         this.aid = aid;
     }
 
-    public void setRatings(Rating[] ratings) {
-        this.ratings = ratings;
+    public void addRating(Rating rating) {
+        this.ratings.add(rating);
     }
 
     public void confirmAccount() {

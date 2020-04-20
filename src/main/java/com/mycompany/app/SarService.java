@@ -86,4 +86,16 @@ public class SarService {
         return Response.ok(jsonUser, MediaType.APPLICATION_JSON).build();
     }
 
+    @POST
+    @Timed 
+    @Path("/accounts/{aid}/ratings")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response rateAccount(@PathParam("aid") int aid, Rating rating){
+        int sid = userRepo.createRating(rating, aid);
+        if (sid < 0)
+            return Response.status(Status.NOT_FOUND).build();
+        JSONObject jsonObject = (new JSONObject().put("sid", sid));
+        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
+    }
+
 }

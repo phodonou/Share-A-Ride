@@ -20,7 +20,7 @@ public interface UserBoundaryInterface {
 
     int createAccount(User user);
 
-    void createRating(Rating rating, String aid);
+    int createRating(Rating rating, int aid);
 
     User getRating(String aid);
 
