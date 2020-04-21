@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.mycompany.app.models.Rating;
 import com.mycompany.app.models.User;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.mycompany.app.boundaryInterfaces.UserBoundaryInterface;
 
 //Manages everything user related
@@ -89,16 +90,19 @@ public class UserRepository implements UserBoundaryInterface {
             return -1;
         int sid = rating.setSid();
         LocalDateTime dateTime = LocalDateTime.now();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy, HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
         rating.setRatingDate(dtf.format(dateTime));
         user.addRating(rating);
         return sid;
     }
 
     @Override
-    public User getRating(String aid) {
-        // TODO Auto-generated method stub
-        return null;
+    public Map<String, Object> getRating(int aid) {
+        User user = getUser(aid);
+        if (user == null)
+            return null;
+        JSONObject jsonUserRides = jsonUserRides(user);
+        return jsonUserRides.toMap();
     }
 
     @Override
@@ -137,6 +141,51 @@ public class UserRepository implements UserBoundaryInterface {
         jsonObject.put("date_created", user.getDateCreated());
         jsonObject.put("is_active", user.getIsActive());
         return jsonObject;
+    }
+
+    JSONObject jsonRating(Rating rating) {
+        JSONObject jsonObject = new JSONObject();
+        User sentByUser = getUser(rating.getSentBy());
+        jsonObject.put("rid", rating.getRid());
+        jsonObject.put("sent_by_id", rating.getSentBy());
+        jsonObject.put("first_name", sentByUser.getFirstName());
+        jsonObject.put("date", rating.getRatingDate());
+        jsonObject.put("rating", rating.getRating());
+        jsonObject.put("comment", rating.getComment());
+        return jsonObject;
+    }
+
+    ArrayList<JSONObject> jsonRatings(List<Rating> ratings) {
+        ;
+        ArrayList<JSONObject> jsonRatingsArray = new ArrayList<JSONObject>();
+        for (Rating rating : ratings) {
+            jsonRatingsArray.add(jsonRating(rating));
+        }
+        return jsonRatingsArray;
+    }
+
+    JSONObject jsonUserRides(User user) {
+        JSONObject jsonObject = new JSONObject();
+        ArrayList<Rating> ratings = user.getRatings();
+        ArrayList<JSONObject> jsonRatings = jsonRatings(ratings);
+        double avgRating = calculateAvgRating(ratings);
+        jsonObject.put("aid", user.getAid());
+        jsonObject.put("first_name", user.getFirstName());
+        jsonObject.put("rides", user.getNumOfRides());
+        jsonObject.put("ratings", ratings.size());
+        jsonObject.put("average_rating", avgRating);
+        jsonObject.put("detail", jsonRatings);
+        return jsonObject;
+    }
+
+    double calculateAvgRating(ArrayList<Rating> ratings) {
+        if (ratings.size() == 0)
+            return 0;
+        int sum = 0;
+        for (Rating rating : ratings) {
+            sum += rating.getRating();
+        }
+        return (sum / (double) ratings.size());
     }
 
 }

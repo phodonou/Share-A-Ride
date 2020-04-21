@@ -22,7 +22,7 @@ public interface UserBoundaryInterface {
 
     int createRating(Rating rating, int aid);
 
-    User getRating(String aid);
+    Map<String, Object> getRating(int aid);
 
     boolean sendMessageNotification(User person);
 }

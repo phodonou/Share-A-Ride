@@ -14,6 +14,7 @@ public class User {
     private boolean isActive;
     private ArrayList<Rating> ratings;
     private String dateCreated;
+    private int numOfRides;
 
     public User() {
     }
@@ -63,6 +64,14 @@ public class User {
         int id = UniqueIdGenerator.getUniqueID();
         this.aid = id;
         return id;
+    }
+
+    public int getNumOfRides(){
+        return numOfRides;
+    }
+
+    public void increaseNumOfRides(){
+        this.numOfRides++;
     }
 
     public String getDateCreated() {

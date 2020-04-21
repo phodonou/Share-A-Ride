@@ -87,10 +87,10 @@ public class SarService {
     }
 
     @POST
-    @Timed 
+    @Timed
     @Path("/accounts/{aid}/ratings")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response rateAccount(@PathParam("aid") int aid, Rating rating){
+    public Response rateAccount(@PathParam("aid") int aid, Rating rating) {
         int sid = userRepo.createRating(rating, aid);
         if (sid < 0)
             return Response.status(Status.NOT_FOUND).build();
@@ -98,4 +98,25 @@ public class SarService {
         return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
     }
 
+    @GET
+    @Timed
+    @Path("/accounts/{aid}/driver")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response driverRatings(@PathParam("aid") int aid) {
+        Map<String, Object> jsonUserRides = userRepo.getRating(aid);
+        if (jsonUserRides == null)
+            return Response.status(Status.NOT_FOUND).build();
+        return Response.ok(jsonUserRides, MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Timed
+    @Path("/accounts/{aid}/rider")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response riderRatings(@PathParam("aid") int aid) {
+        Map<String, Object> jsonUserRides = userRepo.getRating(aid);
+        if (jsonUserRides == null)
+            return Response.status(Status.NOT_FOUND).build();
+        return Response.ok(jsonUserRides, MediaType.APPLICATION_JSON).build();
+    }
 }
