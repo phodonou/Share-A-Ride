@@ -8,7 +8,7 @@ import com.mycompany.app.models.SearchResult;
 
 //interface to manage everything ride related
 public interface RideBoundaryInterface {
-    void postRide(Ride ride);
+    int postRide(Ride ride);
 
     SearchResult searchRides(Search search);
 

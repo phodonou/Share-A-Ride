@@ -8,6 +8,8 @@ import com.mycompany.app.models.User;
 //interface to manage everything user related
 public interface UserBoundaryInterface {
 
+    int createAccount(User user);
+
     boolean updateAccount(User user, int aid);
 
     boolean confirmAccount(int aid);
@@ -17,8 +19,6 @@ public interface UserBoundaryInterface {
     List<Map<String, Object>> accounts(String key);
 
     Map<String, Object> account(int aid);
-
-    int createAccount(User user);
 
     int createRating(Rating rating, int aid);
 

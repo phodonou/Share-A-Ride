@@ -119,4 +119,15 @@ public class SarService {
             return Response.status(Status.NOT_FOUND).build();
         return Response.ok(jsonUserRides, MediaType.APPLICATION_JSON).build();
     }
+
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/rides")
+    public Response createRide(Ride ride) {
+        int rid = rideRepo.postRide(ride);
+        JSONObject jsonObject = (new JSONObject().put("rid", rid));
+        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
+    }
 }

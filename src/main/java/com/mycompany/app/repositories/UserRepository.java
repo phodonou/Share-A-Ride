@@ -1,14 +1,11 @@
 package com.mycompany.app.repositories;
 
+import java.util.*;
+import org.json.JSONObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.ArrayList;
-import org.json.JSONObject;
 
-import com.mycompany.app.models.Rating;
-import com.mycompany.app.models.User;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.mycompany.app.models.*;
 import com.mycompany.app.boundaryInterfaces.UserBoundaryInterface;
 
 //Manages everything user related

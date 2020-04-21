@@ -1,20 +1,21 @@
 package com.mycompany.app.repositories;
 
+import java.util.*;
+
+import com.mycompany.app.models.*;
 import com.mycompany.app.boundaryInterfaces.RideBoundaryInterface;
-import com.mycompany.app.models.JoinRequest;
-import com.mycompany.app.models.Report;
-import com.mycompany.app.models.Ride;
-import com.mycompany.app.models.Search;
-import com.mycompany.app.models.SearchResult;
 
 //Manages everything ride related
 //Will have a list of all [Rides] and a list of all [JoinRequests]
 public class RideRepository implements RideBoundaryInterface {
 
-    @Override
-    public void postRide(Ride ride) {
-        // TODO Auto-generated method stub
+    List<Ride> rides = new ArrayList<Ride>();
 
+    @Override
+    public int postRide(Ride ride) {
+        int rid = ride.setRid();
+        rides.add(ride);
+        return rid;
     }
 
     @Override
