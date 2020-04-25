@@ -1,22 +1,24 @@
 package com.mycompany.app.repositories;
 
 import java.util.*;
-
-import com.mycompany.app.models.*;
-
 import org.json.JSONObject;
+import java.time.LocalDateTime;
+import com.mycompany.app.models.*;
+import java.time.format.DateTimeFormatter;
 
 import com.mycompany.app.boundaryInterfaces.RideBoundaryInterface;
 import com.mycompany.app.boundaryInterfaces.UserBoundaryInterface;
 
 //Manages everything ride related
-//Will have a list of all [Rides] and a list of all [JoinRequests]
+//Will have a list of all [Rides] 
 public class RideRepository implements RideBoundaryInterface {
 
     List<Ride> rides = new ArrayList<Ride>();
 
     @Override
     public int postRide(Ride ride) {
+        ride.setJoinRequest();
+        ride.setMessages();
         int rid = ride.setRid();
         rides.add(ride);
         return rid;
@@ -61,6 +63,16 @@ public class RideRepository implements RideBoundaryInterface {
     }
 
     @Override
+    public List<Map<String, Object>> messages(int rid) {
+        List<Map<String, Object>> jsonMessages = new ArrayList<>();
+        Ride ride = getRide(rid);
+        for (Message message : ride.getMessages()) {
+            jsonMessages.add(jsonMessage(message).toMap());
+        }
+        return jsonMessages;
+    }
+
+    @Override
     public Map<String, Object> ride(int rid, UserBoundaryInterface userRepository) {
         Ride ride = getRide(rid);
         if (ride == null)
@@ -75,21 +87,40 @@ public class RideRepository implements RideBoundaryInterface {
     }
 
     @Override
-    public void joinRide(Ride ride, JoinRequest joinRequest) {
-        // TODO Auto-generated method stub
-
+    public int joinRide(int rid, JoinRequest joinRequest) {
+        int id = joinRequest.setJid();
+        Ride ride = getRide(rid);
+        ride.addJoinRequest(joinRequest);
+        return id;
     }
 
     @Override
-    public void confirmRideStarted() {
-        // TODO Auto-generated method stub
-
+    public boolean rideRequestStatus(int rid, int jid, RideRequestStatus rideRequestStatus) {
+        JoinRequest joinRequest = getJoinRequest(rid, jid);
+        if (joinRequest == null || rideRequestStatus.getAid() != joinRequest.getAid())
+            return false;
+        joinRequest.setRideConfirmed(rideRequestStatus.getRideConfirmed());
+        return true;
     }
 
     @Override
-    public void confirmRiderOnboard() {
-        // TODO Auto-generated method stub
+    public boolean ridePickupStatus(int rid, int jid, RideRequestStatus rideRequestStatus) {
+        JoinRequest joinRequest = getJoinRequest(rid, jid);
+        if (joinRequest == null || rideRequestStatus.getAid() != joinRequest.getAid())
+            return false;
+        joinRequest.setPickUpConifrmed(rideRequestStatus.getPickupConfirmed());
+        return true;
+    }
 
+    @Override
+    public int addMessage(int rid, Message message) {
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy, HH:mm:ss");
+        message.setDateCreated(dtf.format(dateTime));
+        Ride ride = getRide(rid);
+        int id = message.setMid();
+        ride.addMessage(message);
+        return id;
     }
 
     @Override
@@ -100,9 +131,19 @@ public class RideRepository implements RideBoundaryInterface {
 
     private Ride getRide(int rid) {
         for (Ride ride : this.rides) {
-            if (ride.getRid() == rid) {
+            if (ride.getRid() == rid)
                 return ride;
-            }
+        }
+        return null;
+    }
+
+    private JoinRequest getJoinRequest(int rid, int jid) {
+        Ride ride = getRide(rid);
+        if (ride == null)
+            return null;
+        for (JoinRequest joinRequest : ride.getJoinRequests()) {
+            if (joinRequest.getJid() == jid)
+                return joinRequest;
         }
         return null;
     }
@@ -122,6 +163,15 @@ public class RideRepository implements RideBoundaryInterface {
             }
         }
         return queriedRides;
+    }
+
+    public JSONObject jsonMessage(Message message) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("mid", message.getMid());
+        jsonObject.put("sent_by_aid", message.getAid());
+        jsonObject.put("date", message.getDateCreated());
+        jsonObject.put("body", message.getMessage());
+        return jsonObject;
     }
 
     private JSONObject jsonRide(Ride ride) {

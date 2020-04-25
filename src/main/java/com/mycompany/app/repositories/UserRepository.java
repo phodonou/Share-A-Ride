@@ -17,7 +17,7 @@ public class UserRepository implements UserBoundaryInterface {
     @Override
     public int createAccount(User user) {
         int aid = user.setAid();
-        user.setRating(new ArrayList<Rating>());
+        user.setRating();
         LocalDateTime dateTime = LocalDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy, HH:mm:ss");
         user.setDateCreated(dtf.format(dateTime));

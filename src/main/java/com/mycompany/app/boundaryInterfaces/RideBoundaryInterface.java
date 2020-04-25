@@ -2,11 +2,7 @@ package com.mycompany.app.boundaryInterfaces;
 
 import java.util.*;
 
-import com.mycompany.app.models.JoinRequest;
-import com.mycompany.app.models.Report;
-import com.mycompany.app.models.Ride;
-import com.mycompany.app.models.Search;
-import com.mycompany.app.models.SearchResult;
+import com.mycompany.app.models.*;
 
 //interface to manage everything ride related
 public interface RideBoundaryInterface {
@@ -18,15 +14,19 @@ public interface RideBoundaryInterface {
 
     List<Map<String, Object>> rides(String from, String to, String date);
 
+    List<Map<String, Object>> messages(int rid);
+
     Map<String, Object> ride(int rid, UserBoundaryInterface serRepository);
 
     SearchResult searchRides(Search search);
 
-    void joinRide(Ride ride, JoinRequest joinRequest);
+    int joinRide(int rid, JoinRequest joinRequest);
 
-    void confirmRideStarted();
+    boolean rideRequestStatus(int rid, int jid, RideRequestStatus rideRequestStatus);
 
-    void confirmRiderOnboard();
+    boolean ridePickupStatus(int rid, int jid, RideRequestStatus rideRequestStatus);
+
+    int addMessage(int rid, Message message);
 
     Report generateReport();
 }

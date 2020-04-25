@@ -3,9 +3,11 @@ package com.mycompany.app;
 import java.util.*;
 import javax.ws.rs.*;
 import org.json.JSONObject;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import io.dropwizard.jersey.PATCH;
 
 import com.mycompany.app.models.*;
 import com.mycompany.app.repositories.*;
@@ -174,4 +176,47 @@ public class SarService {
         return Response.ok(jsonRide, MediaType.APPLICATION_JSON).build();
     }
 
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/rides/{rid}/join_requests")
+    public Response joinRequest(@PathParam("rid") int rid, JoinRequest joinRequest) {
+        int jid = rideRepo.joinRide(rid, joinRequest);
+        JSONObject jsonObject = (new JSONObject().put("jid", jid));
+        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
+    }
+
+    @PATCH
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/rides/{rid}/join_requests/{jid}")
+    public Response rideRequestStatus(@PathParam("rid") int rid, @PathParam("jid") int jid,
+            RideRequestStatus rideRequestStatus) {
+        boolean success = rideRepo.rideRequestStatus(rid, jid, rideRequestStatus);
+        boolean success1 = rideRepo.ridePickupStatus(rid, jid, rideRequestStatus);
+        if (!success && !success1)
+            return Response.status(Status.NOT_FOUND).build();
+        return Response.ok().build();
+    }
+
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/rides/{rid}/messages")
+    public Response addMessage(@PathParam("rid") int rid, Message message) {
+        int aid = rideRepo.addMessage(rid, message);
+        JSONObject jsonObject = (new JSONObject().put("mid", aid));
+        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Timed
+    @Path("/rides/{rid}/messages")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response message(@PathParam("rid") int rid) {
+        List<Map<String, Object>> messages = rideRepo.messages(rid);
+        return Response.ok(messages, MediaType.APPLICATION_JSON).build();
+    }
 }

@@ -1,5 +1,6 @@
 package com.mycompany.app.models;
 
+import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.mycompany.app.utilities.UniqueIdGenerator;
@@ -14,6 +15,8 @@ public class Ride {
     private String conditions;
     private Car car;
     private LocationInfo locationInfo;
+    private ArrayList<JoinRequest> joinRequests;
+    private ArrayList<Message> messages;
 
     public Ride() {
     }
@@ -104,6 +107,39 @@ public class Ride {
 
     public void setLocationInfo(LocationInfo locationInfo) {
         this.locationInfo = locationInfo;
+    }
+
+    public void setJoinRequest() {
+        joinRequests = new ArrayList<JoinRequest>();
+    }
+
+    public ArrayList<JoinRequest> getJoinRequests() {
+        return joinRequests;
+    }
+
+    public void addJoinRequest(JoinRequest joinRequest) {
+        this.joinRequests.add(joinRequest);
+    }
+
+    public void setMessages() {
+        messages = new ArrayList<Message>();
+    }
+
+    public ArrayList<Message> getMessages() {
+        return messages;
+    }
+
+    public void addMessage(Message message) {
+        this.messages.add(message);
+    }
+
+    @Override
+    public String toString() {
+        return "{" + " rid='" + getRid() + "'" + ", aid='" + getAid() + "'" + ", rideDateTime='" + getRideDateTime()
+                + "'" + ", maxPassengers='" + getMaxPassengers() + "'" + ", amountPerPassenger='"
+                + getAmountPerPassenger() + "'" + ", conditions='" + getConditions() + "'" + ", car='" + getCar() + "'"
+                + ", locationInfo='" + getLocationInfo() + "'" + ", joinRequests='" + getJoinRequests() + "'"
+                + ", messages='" + getMessages() + "'" + "}";
     }
 
 }

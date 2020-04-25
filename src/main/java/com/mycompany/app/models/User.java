@@ -1,8 +1,8 @@
 package com.mycompany.app.models;
 
 import java.util.ArrayList;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import com.mycompany.app.utilities.UniqueIdGenerator;
 
 public class User {
@@ -66,11 +66,11 @@ public class User {
         return id;
     }
 
-    public int getNumOfRides(){
+    public int getNumOfRides() {
         return numOfRides;
     }
 
-    public void increaseNumOfRides(){
+    public void increaseNumOfRides() {
         this.numOfRides++;
     }
 
@@ -82,8 +82,8 @@ public class User {
         this.dateCreated = dateCreated;
     }
 
-    public void setRating(ArrayList<Rating> ratings){
-        this.ratings = ratings;
+    public void setRating() {
+        this.ratings = new ArrayList<Rating>();
     }
 
     public void replaceAid(int aid) {
