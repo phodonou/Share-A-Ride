@@ -64,8 +64,10 @@ public class RideRepository implements RideBoundaryInterface {
 
     @Override
     public List<Map<String, Object>> messages(int rid) {
-        List<Map<String, Object>> jsonMessages = new ArrayList<>();
         Ride ride = getRide(rid);
+        if (ride == null)
+            return null;
+        List<Map<String, Object>> jsonMessages = new ArrayList<>();
         for (Message message : ride.getMessages()) {
             jsonMessages.add(jsonMessage(message).toMap());
         }
