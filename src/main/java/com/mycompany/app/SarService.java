@@ -130,4 +130,48 @@ public class SarService {
         JSONObject jsonObject = (new JSONObject().put("rid", rid));
         return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
     }
+
+    @PUT
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/rides/{rid}")
+    public Response updateRide(@PathParam("rid") int rid, Ride ride) {
+        boolean result = rideRepo.updateRide(ride, rid);
+        if (!result)
+            return Response.status(Status.NOT_FOUND).build();
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Timed
+    @Path("/rides/{rid}")
+    public Response deleteRide(@PathParam("rid") int rid) {
+        boolean result = rideRepo.deleteRide(rid);
+        if (!result)
+            return Response.status(Status.NOT_FOUND).build();
+        return Response.ok().build();
+    }
+
+    @GET
+    @Timed
+    @Path("/rides")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response rides(@QueryParam("from") String from, @QueryParam("to") String to,
+            @QueryParam("date") String date) {
+        List<Map<String, Object>> rides = rideRepo.rides(from, to, date);
+        return Response.ok(rides, MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Timed
+    @Path("/rides/{rid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response ride(@PathParam("rid") int rid) {
+        Map<String, Object> jsonRide = rideRepo.ride(rid, userRepo);
+        if (jsonRide == null)
+            return Response.status(Status.NOT_FOUND).build();
+        return Response.ok(jsonRide, MediaType.APPLICATION_JSON).build();
+    }
+
 }

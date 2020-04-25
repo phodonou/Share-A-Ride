@@ -39,6 +39,10 @@ public class Ride {
         return id;
     }
 
+    public void replaceRid(int rid) {
+        this.rid = aid;
+    }
+
     @JsonProperty("aid")
     public int getAid() {
         return this.aid;

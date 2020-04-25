@@ -29,7 +29,6 @@ public class UserRepository implements UserBoundaryInterface {
         User user = getUser(aid);
         if (user == null)
             return false;
-
         user.confirmAccount();
         return true;
     }
@@ -107,7 +106,7 @@ public class UserRepository implements UserBoundaryInterface {
         return true;
     }
 
-    User getUser(int aid) {
+    public User getUser(int aid) {
         for (User user : this.users) {
             if (user.getAid() == aid) {
                 return user;
@@ -118,20 +117,21 @@ public class UserRepository implements UserBoundaryInterface {
 
     List<User> getUsers(String key) {
         ArrayList<User> users = new ArrayList<User>();
-        String processedKey = key.trim().toLowerCase();
+        String keyword = key.trim().toLowerCase();
         for (User user : this.users) {
-            String processedFirstName = user.getFirstName().trim().toLowerCase();
-            String processedLastName = user.getLastName().trim().toLowerCase();
-            String processedCellPhone = user.getCellPhone().trim().toLowerCase();
-            if (processedFirstName.equals(processedKey) || processedLastName.equals(processedKey)
-                    || processedCellPhone.equals(processedKey)) {
+            String userFirstName = user.getFirstName().trim().toLowerCase();
+            String userLastName = user.getLastName().trim().toLowerCase();
+            String userCellPhone = user.getCellPhone().trim().toLowerCase();
+            boolean queryCorrect = userFirstName.equals(keyword) || userLastName.equals(keyword)
+                    || userCellPhone.equals(keyword);
+            if (queryCorrect) {
                 users.add(user);
             }
         }
         return users;
     }
 
-    JSONObject jsonUser(User user) {
+    private JSONObject jsonUser(User user) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("aid", user.getAid());
         jsonObject.put("name", user.getFirstName() + " " + user.getLastName());
@@ -140,7 +140,7 @@ public class UserRepository implements UserBoundaryInterface {
         return jsonObject;
     }
 
-    JSONObject jsonRating(Rating rating) {
+    private JSONObject jsonRating(Rating rating) {
         JSONObject jsonObject = new JSONObject();
         User sentByUser = getUser(rating.getSentBy());
         jsonObject.put("rid", rating.getRid());
@@ -152,7 +152,7 @@ public class UserRepository implements UserBoundaryInterface {
         return jsonObject;
     }
 
-    ArrayList<JSONObject> jsonRatings(List<Rating> ratings) {
+    private ArrayList<JSONObject> jsonRatings(List<Rating> ratings) {
         ;
         ArrayList<JSONObject> jsonRatingsArray = new ArrayList<JSONObject>();
         for (Rating rating : ratings) {
@@ -161,7 +161,7 @@ public class UserRepository implements UserBoundaryInterface {
         return jsonRatingsArray;
     }
 
-    JSONObject jsonUserRides(User user) {
+    private JSONObject jsonUserRides(User user) {
         JSONObject jsonObject = new JSONObject();
         ArrayList<Rating> ratings = user.getRatings();
         ArrayList<JSONObject> jsonRatings = jsonRatings(ratings);

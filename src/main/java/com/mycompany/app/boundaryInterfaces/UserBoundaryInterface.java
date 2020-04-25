@@ -20,6 +20,8 @@ public interface UserBoundaryInterface {
 
     Map<String, Object> account(int aid);
 
+    User getUser(int aid);
+
     int createRating(Rating rating, int aid);
 
     Map<String, Object> getRating(int aid);
