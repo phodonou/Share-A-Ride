@@ -1,11 +1,13 @@
 package com.mycompany.app;
 
+import java.net.URI;
 import java.util.*;
 import javax.ws.rs.*;
 import org.json.JSONObject;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
 import io.dropwizard.jersey.PATCH;
 
@@ -49,7 +51,7 @@ public class SarService {
         }
         int aid = userRepo.createAccount(user);
         JSONObject jsonObject = (new JSONObject().put("aid", aid));
-        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
+        return Response.created(UriBuilder.fromPath("accounts/" + aid).build()).entity(jsonObject.toMap()).build();
     }
 
     @PUT
