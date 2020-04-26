@@ -26,4 +26,6 @@ public interface UserBoundaryInterface {
     Map<String, Object> getRating(int aid);
 
     boolean sendMessageNotification(User person);
+
+    boolean phoneNumberExists(String phoneNumber);
 }

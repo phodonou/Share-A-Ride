@@ -106,6 +106,16 @@ public class UserRepository implements UserBoundaryInterface {
         return true;
     }
 
+    @Override
+    public boolean phoneNumberExists(String phoneNumber) {
+        for (User user : this.users) {
+            if (user.getCellPhone().equals(phoneNumber)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public User getUser(int aid) {
         for (User user : this.users) {
             if (user.getAid() == aid) {

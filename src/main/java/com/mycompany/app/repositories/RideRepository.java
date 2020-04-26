@@ -16,7 +16,10 @@ public class RideRepository implements RideBoundaryInterface {
     List<Ride> rides = new ArrayList<Ride>();
 
     @Override
-    public int postRide(Ride ride) {
+    public int postRide(Ride ride, UserBoundaryInterface userRepository) {
+        User user = userRepository.getUser(ride.getAid());
+        if(!user.getIsActive()) return -1;
+        ride.getAid();
         ride.setJoinRequest();
         ride.setMessages();
         int rid = ride.setRid();

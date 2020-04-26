@@ -6,7 +6,7 @@ import com.mycompany.app.models.*;
 
 //interface to manage everything ride related
 public interface RideBoundaryInterface {
-    int postRide(Ride ride);
+    int postRide(Ride ride, UserBoundaryInterface userRepository);
 
     boolean updateRide(Ride ride, int rid);
 
@@ -16,7 +16,7 @@ public interface RideBoundaryInterface {
 
     List<Map<String, Object>> messages(int rid);
 
-    Map<String, Object> ride(int rid, UserBoundaryInterface serRepository);
+    Map<String, Object> ride(int rid, UserBoundaryInterface userRepository);
 
     SearchResult searchRides(Search search);
 

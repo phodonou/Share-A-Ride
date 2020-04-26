@@ -17,7 +17,6 @@ com/mycompany/app/models/SearchResult.class
 com/mycompany/app/models/User.class
 com/mycompany/app/models/Search.class
 com/mycompany/app/boundaryInterfaces/RideBoundaryInterface.class
-com/mycompany/app/models/Note.class
 com/mycompany/app/models/JoinRequest.class
 com/mycompany/app/SarService.class
 com/mycompany/app/models/Ride.class

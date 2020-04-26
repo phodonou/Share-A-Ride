@@ -1,7 +1,8 @@
 package com.mycompany.app;
 
-import java.net.URI;
 import java.util.*;
+import java.util.regex.Pattern;
+
 import javax.ws.rs.*;
 import org.json.JSONObject;
 
@@ -21,6 +22,8 @@ public class SarService {
 
     RideBoundaryInterface rideRepo = new RideRepository();
     UserBoundaryInterface userRepo = new UserRepository();
+
+    final String PHONE_NUMBER_REGEX = "^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$";
 
     public SarService() {
     }
@@ -46,8 +49,12 @@ public class SarService {
                     .entity(validationErrorResponse("Invalid first name", "/accounts")).build();
         }
         if (user.getLastName() == null) {
-            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse("Invalid last name", "/accounts"))
-                    .build();
+            return Response.status(Status.BAD_REQUEST)
+                    .entity(validationErrorResponse("Invalid last number", "/accounts")).build();
+        }
+        if (!Pattern.compile(PHONE_NUMBER_REGEX).matcher(user.getCellPhone()).matches()) {
+            return Response.status(Status.BAD_REQUEST)
+                    .entity(validationErrorResponse("Invalid phone number", "/accounts")).build();
         }
         int aid = userRepo.createAccount(user);
         JSONObject jsonObject = (new JSONObject().put("aid", aid));
@@ -61,7 +68,7 @@ public class SarService {
         boolean result = userRepo.confirmAccount(aid);
         if (!result)
             return Response.status(Status.NOT_FOUND).build();
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 
     @PUT
@@ -80,7 +87,7 @@ public class SarService {
         boolean result = userRepo.updateAccount(user, aid);
         if (!result)
             return Response.status(Status.NOT_FOUND).build();
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 
     @DELETE
@@ -90,7 +97,7 @@ public class SarService {
         boolean result = userRepo.deleteAccount(aid);
         if (!result)
             return Response.status(Status.NOT_FOUND).build();
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 
     @GET
@@ -134,10 +141,9 @@ public class SarService {
                     .build();
         }
         int sid = userRepo.createRating(rating, aid);
-        if (sid < 0)
-            return Response.status(Status.NOT_FOUND).build();
         JSONObject jsonObject = (new JSONObject().put("sid", sid));
-        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
+        return Response.created(UriBuilder.fromPath("accounts/" + aid + "/ratings/" + sid).build())
+                .entity(jsonObject.toMap()).build();
     }
 
     @GET
@@ -219,9 +225,14 @@ public class SarService {
             return Response.status(Status.BAD_REQUEST)
                     .entity(validationErrorResponse("ammount per passenger must be greater than 0", "/rides")).build();
         }
-        int rid = rideRepo.postRide(ride);
+        int rid = rideRepo.postRide(ride, userRepo);
+        if (rid < 0)
+            return Response.status(Status.BAD_REQUEST)
+                    .entity(validationErrorResponse(
+                            "This account (" + ride.getAid() + ") is not active, may not create a ride.", "/rides"))
+                    .build();
         JSONObject jsonObject = (new JSONObject().put("rid", rid));
-        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
+        return Response.created(UriBuilder.fromPath("rides/" + rid).build()).entity(jsonObject.toMap()).build();
     }
 
     @PUT
@@ -273,7 +284,7 @@ public class SarService {
         boolean result = rideRepo.updateRide(ride, rid);
         if (!result)
             return Response.status(Status.NOT_FOUND).build();
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 
     @DELETE
@@ -283,7 +294,7 @@ public class SarService {
         boolean result = rideRepo.deleteRide(rid);
         if (!result)
             return Response.status(Status.NOT_FOUND).build();
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 
     @GET
@@ -323,7 +334,8 @@ public class SarService {
         }
         int jid = rideRepo.joinRide(rid, joinRequest);
         JSONObject jsonObject = (new JSONObject().put("jid", jid));
-        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
+        return Response.created(UriBuilder.fromPath("rides/" + rid + "/join_requests/" + jid).build())
+                .entity(jsonObject.toMap()).build();
     }
 
     @PATCH
@@ -353,9 +365,10 @@ public class SarService {
             return Response.status(Status.BAD_REQUEST)
                     .entity(validationErrorResponse("message invalid", "/rides/" + rid + "/messages")).build();
         }
-        int aid = rideRepo.addMessage(rid, message);
-        JSONObject jsonObject = (new JSONObject().put("mid", aid));
-        return Response.ok(jsonObject.toMap(), MediaType.APPLICATION_JSON).build();
+        int mid = rideRepo.addMessage(rid, message);
+        JSONObject jsonObject = (new JSONObject().put("mid", mid));
+        return Response.created(UriBuilder.fromPath("rides/" + rid + "/messages/" + mid).build())
+                .entity(jsonObject.toMap()).build();
     }
 
     @GET
