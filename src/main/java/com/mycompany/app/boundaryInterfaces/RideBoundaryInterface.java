@@ -18,8 +18,6 @@ public interface RideBoundaryInterface {
 
     Map<String, Object> ride(int rid, UserBoundaryInterface userRepository);
 
-    SearchResult searchRides(Search search);
-
     int joinRide(int rid, JoinRequest joinRequest);
 
     boolean rideRequestStatus(int rid, int jid, RideRequestStatus rideRequestStatus);
@@ -28,5 +26,7 @@ public interface RideBoundaryInterface {
 
     int addMessage(int rid, Message message);
 
-    Report generateReport();
+    List<Report> generateReport();
+
+    Map<String, Object> getReport(int pid, String startDate, String endDate) throws Exception;
 }

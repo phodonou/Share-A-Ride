@@ -373,8 +373,8 @@ public class SarService {
 
     @GET
     @Timed
-    @Path("/rides/{rid}/messages")
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/rides/{rid}/messages")
     public Response message(@PathParam("rid") int rid) {
         List<Map<String, Object>> messages = rideRepo.messages(rid);
         if (messages == null) {
@@ -382,4 +382,28 @@ public class SarService {
         }
         return Response.ok(messages, MediaType.APPLICATION_JSON).build();
     }
+
+    @GET
+    @Timed
+    @Path("/reports")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response reports() {
+        List<Report> reports = rideRepo.generateReport();
+        return Response.ok(reports).build();
+    }
+
+    @GET
+    @Timed
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/reports/{pid}")
+    public Response report(@QueryParam("start_date") String startDate, @QueryParam("end_date") String endDate,
+            @PathParam("pid") int pid) throws Exception {
+        String sd = startDate == null ? "" : startDate;
+        String ed = endDate == null ? "" : endDate;
+        Map<String, Object> report = rideRepo.getReport(pid, sd, ed);
+        if (report == null)
+            return Response.status(Status.NOT_FOUND).build();
+        return Response.ok(report).build();
+    }
+
 }

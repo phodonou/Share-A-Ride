@@ -2,6 +2,10 @@ package com.mycompany.app.repositories;
 
 import java.util.*;
 import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import com.mycompany.app.models.*;
 import java.time.format.DateTimeFormatter;
@@ -14,11 +18,16 @@ import com.mycompany.app.boundaryInterfaces.UserBoundaryInterface;
 public class RideRepository implements RideBoundaryInterface {
 
     List<Ride> rides = new ArrayList<Ride>();
+    List<Report> reports = new ArrayList<Report>();
+
+    final String RIDE_POSTED_REPORT = "Rides posted between two date";
+    final String RIDE_TAKEN_REPORT = "Rides taken between two dates";
 
     @Override
     public int postRide(Ride ride, UserBoundaryInterface userRepository) {
         User user = userRepository.getUser(ride.getAid());
-        if(!user.getIsActive()) return -1;
+        if (!user.getIsActive())
+            return -1;
         ride.getAid();
         ride.setJoinRequest();
         ride.setMessages();
@@ -49,7 +58,7 @@ public class RideRepository implements RideBoundaryInterface {
 
     @Override
     public List<Map<String, Object>> rides(String from, String to, String date) {
-        if (from != null && to != null && date != null) {
+        if (from != null || to != null || date != null) {
             List<Map<String, Object>> jsonRides = new ArrayList<Map<String, Object>>();
             List<Ride> queriedRides = getRides(from, to, date);
             for (Ride ride : queriedRides) {
@@ -83,12 +92,6 @@ public class RideRepository implements RideBoundaryInterface {
         if (ride == null)
             return null;
         return jsonRideDetailed(ride, userRepository).toMap();
-    }
-
-    @Override
-    public SearchResult searchRides(Search search) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -129,8 +132,70 @@ public class RideRepository implements RideBoundaryInterface {
     }
 
     @Override
-    public Report generateReport() {
-        // TODO Auto-generated method stub
+    public List<Report> generateReport() {
+        Report reportPosted = new Report();
+        reportPosted.setPid();
+        reportPosted.setName(RIDE_POSTED_REPORT);
+        reports.add(reportPosted);
+        Report reportTaken = new Report();
+        reportTaken.setPid();
+        reportTaken.setName(RIDE_TAKEN_REPORT);
+        reports.add(reportTaken);
+        return reports;
+    }
+
+    @Override
+    public Map<String, Object> getReport(int pid, String startDate, String endDate) throws Exception {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyy");
+        Report report = report(pid);
+        if (report == null)
+            return null;
+        boolean startDateEmpty = startDate.isEmpty();
+        boolean endDateEmpty = endDate.isEmpty();
+        if (startDateEmpty && endDateEmpty) {
+            List<Ride> correctRides = new ArrayList<Ride>();
+            for (Ride ride : rides) {
+                correctRides.add(ride);
+            }
+            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();
+        } else if (!startDateEmpty && endDateEmpty) {
+            Date sd = df.parse(startDate);
+            List<Ride> correctRides = new ArrayList<Ride>();
+            for (Ride ride : rides) {
+                Date rideDate = df.parse(ride.getRideDateTime().getDate());
+                if (rideDate.compareTo(sd) >= 0) {
+                    correctRides.add(ride);
+                }
+            }
+            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();
+        } else if (startDateEmpty && !endDateEmpty) {
+            Date sd = df.parse(endDate);
+            List<Ride> correctRides = new ArrayList<Ride>();
+            for (Ride ride : rides) {
+                Date rideDate = df.parse(ride.getRideDateTime().getDate());
+                if (rideDate.compareTo(sd) <= 0) {
+                    correctRides.add(ride);
+                }
+            }
+            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();
+        } else {
+            Date sd = df.parse(endDate);
+            List<Ride> correctRides = new ArrayList<Ride>();
+            for (Ride ride : rides) {
+                Date rideDate = df.parse(ride.getRideDateTime().getDate());
+                if (rideDate.compareTo(sd) >= 0 && rideDate.compareTo(sd) <= 0) {
+                    correctRides.add(ride);
+                }
+            }
+            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();
+        }
+    }
+
+    private Report report(int pid) {
+        for (Report report : reports) {
+            if (report.getPid() == pid)
+                return report;
+        }
         return null;
     }
 
@@ -162,12 +227,27 @@ public class RideRepository implements RideBoundaryInterface {
             String rideFrom = ride.getLocationInfo().getFromCity().toLowerCase().trim();
             String rideTo = ride.getLocationInfo().getToCity().toLowerCase().trim();
             String rideDate = ride.getRideDateTime().getDate().toLowerCase().trim();
-            boolean queryCorrect = fromKey.equals(rideFrom) && toKey.equals(rideTo) && dateKey.equals(rideDate);
+            boolean queryCorrect = fromKey.equals(rideFrom) || toKey.equals(rideTo) || dateKey.equals(rideDate);
             if (queryCorrect) {
                 queriedRides.add(ride);
             }
         }
         return queriedRides;
+    }
+
+    public JSONObject jsonReport(Report report, String startDate, String endDate, List<Ride> rides) {
+        JSONObject jsonObject = new JSONObject();
+        List<Map<String, Object>> jsonRides = new ArrayList<>();
+        for (Ride ride : rides) {
+            jsonRides.add(jsonRideDetail(ride).toMap());
+        }
+        jsonObject.put("pid", report.getPid());
+        jsonObject.put("name", report.getName());
+        jsonObject.put("start_date", startDate);
+        jsonObject.put("end_date", endDate);
+        jsonObject.put("rides", rides.size());
+        jsonObject.put("detail", jsonRides);
+        return jsonObject;
     }
 
     public JSONObject jsonMessage(Message message) {
@@ -232,4 +312,11 @@ public class RideRepository implements RideBoundaryInterface {
         return jsonObject;
     }
 
+    private JSONObject jsonRideDetail(Ride ride) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("from_zip", ride.getLocationInfo().getFromZip());
+        jsonObject.put("to_zip", ride.getLocationInfo().getToZip());
+        jsonObject.put("count", 1);
+        return jsonObject;
+    }
 }

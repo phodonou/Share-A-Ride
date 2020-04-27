@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ride.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareAride</a> &gt; <a href="index.source.html" class="el_package">com.mycompany.app.models</a> &gt; <span class="el_source">Ride.java</span></div><h1>Ride.java</h1><pre class="source lang-java linenums">package com.mycompany.app.models;
+
+import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.mycompany.app.utilities.UniqueIdGenerator;
+
+public class Ride {
+
+    private int rid;
+    private int aid;
+    private RideDateTime rideDateTime;
+    private int maxPassengers;
+    private int amountPerPassenger;
+    private String conditions;
+    private Car car;
+    private LocationInfo locationInfo;
+    private ArrayList&lt;JoinRequest&gt; joinRequests;
+    private ArrayList&lt;Message&gt; messages;
+
+<span class="nc" id="L21">    public Ride() {</span>
+<span class="nc" id="L22">    }</span>
+
+    public Ride(int aid, RideDateTime rideDateTime, int maxPassengers, int amountPerPassenger, String conditions,
+<span class="nc" id="L25">            Car car, LocationInfo locationInfo) {</span>
+<span class="nc" id="L26">        this.aid = aid;</span>
+<span class="nc" id="L27">        this.rideDateTime = rideDateTime;</span>
+<span class="nc" id="L28">        this.maxPassengers = maxPassengers;</span>
+<span class="nc" id="L29">        this.amountPerPassenger = amountPerPassenger;</span>
+<span class="nc" id="L30">        this.conditions = conditions;</span>
+<span class="nc" id="L31">        this.car = car;</span>
+<span class="nc" id="L32">        this.locationInfo = locationInfo;</span>
+<span class="nc" id="L33">    }</span>
+
+    public int getRid() {
+<span class="nc" id="L36">        return this.rid;</span>
+    }
+
+    public int setRid() {
+<span class="nc" id="L40">        int id = UniqueIdGenerator.getUniqueID();</span>
+<span class="nc" id="L41">        this.rid = id;</span>
+<span class="nc" id="L42">        return id;</span>
+    }
+
+    public void replaceRid(int rid) {
+<span class="nc" id="L46">        this.rid = aid;</span>
+<span class="nc" id="L47">    }</span>
+
+    @JsonProperty(&quot;aid&quot;)
+    public int getAid() {
+<span class="nc" id="L51">        return this.aid;</span>
+    }
+
+    public void setAid(int aid) {
+<span class="nc" id="L55">        this.aid = aid;</span>
+<span class="nc" id="L56">    }</span>
+
+    @JsonProperty(&quot;date_time&quot;)
+    public RideDateTime getRideDateTime() {
+<span class="nc" id="L60">        return this.rideDateTime;</span>
+    }
+
+    public void setRideDateTime(RideDateTime rideDateTime) {
+<span class="nc" id="L64">        this.rideDateTime = rideDateTime;</span>
+<span class="nc" id="L65">    }</span>
+
+    @JsonProperty(&quot;max_passengers&quot;)
+    public int getMaxPassengers() {
+<span class="nc" id="L69">        return this.maxPassengers;</span>
+    }
+
+    public void setMaxPassengers(int maxPassengers) {
+<span class="nc" id="L73">        this.maxPassengers = maxPassengers;</span>
+<span class="nc" id="L74">    }</span>
+
+    @JsonProperty(&quot;amount_per_passenger&quot;)
+    public int getAmountPerPassenger() {
+<span class="nc" id="L78">        return this.amountPerPassenger;</span>
+    }
+
+    public void setAmountPerPassenger(int amountPerPassenger) {
+<span class="nc" id="L82">        this.amountPerPassenger = amountPerPassenger;</span>
+<span class="nc" id="L83">    }</span>
+
+    @JsonProperty(&quot;conditions&quot;)
+    public String getConditions() {
+<span class="nc" id="L87">        return this.conditions;</span>
+    }
+
+    public void setConditions(String conditions) {
+<span class="nc" id="L91">        this.conditions = conditions;</span>
+<span class="nc" id="L92">    }</span>
+
+    @JsonProperty(&quot;car_info&quot;)
+    public Car getCar() {
+<span class="nc" id="L96">        return this.car;</span>
+    }
+
+    public void setCar(Car car) {
+<span class="nc" id="L100">        this.car = car;</span>
+<span class="nc" id="L101">    }</span>
+
+    @JsonProperty(&quot;location_info&quot;)
+    public LocationInfo getLocationInfo() {
+<span class="nc" id="L105">        return this.locationInfo;</span>
+    }
+
+    public void setLocationInfo(LocationInfo locationInfo) {
+<span class="nc" id="L109">        this.locationInfo = locationInfo;</span>
+<span class="nc" id="L110">    }</span>
+
+    public void setJoinRequest() {
+<span class="nc" id="L113">        joinRequests = new ArrayList&lt;JoinRequest&gt;();</span>
+<span class="nc" id="L114">    }</span>
+
+    public ArrayList&lt;JoinRequest&gt; getJoinRequests() {
+<span class="nc" id="L117">        return joinRequests;</span>
+    }
+
+    public void addJoinRequest(JoinRequest joinRequest) {
+<span class="nc" id="L121">        this.joinRequests.add(joinRequest);</span>
+<span class="nc" id="L122">    }</span>
+
+    public void setMessages() {
+<span class="nc" id="L125">        messages = new ArrayList&lt;Message&gt;();</span>
+<span class="nc" id="L126">    }</span>
+
+    public ArrayList&lt;Message&gt; getMessages() {
+<span class="nc" id="L129">        return messages;</span>
+    }
+
+    public void addMessage(Message message) {
+<span class="nc" id="L133">        this.messages.add(message);</span>
+<span class="nc" id="L134">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L138">        return &quot;{&quot; + &quot; rid='&quot; + getRid() + &quot;'&quot; + &quot;, aid='&quot; + getAid() + &quot;'&quot; + &quot;, rideDateTime='&quot; + getRideDateTime()</span>
+<span class="nc" id="L139">                + &quot;'&quot; + &quot;, maxPassengers='&quot; + getMaxPassengers() + &quot;'&quot; + &quot;, amountPerPassenger='&quot;</span>
+<span class="nc" id="L140">                + getAmountPerPassenger() + &quot;'&quot; + &quot;, conditions='&quot; + getConditions() + &quot;'&quot; + &quot;, car='&quot; + getCar() + &quot;'&quot;</span>
+<span class="nc" id="L141">                + &quot;, locationInfo='&quot; + getLocationInfo() + &quot;'&quot; + &quot;, joinRequests='&quot; + getJoinRequests() + &quot;'&quot;</span>
+<span class="nc" id="L142">                + &quot;, messages='&quot; + getMessages() + &quot;'&quot; + &quot;}&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Car.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareAride</a> &gt; <a href="index.source.html" class="el_package">com.mycompany.app.models</a> &gt; <span class="el_source">Car.java</span></div><h1>Car.java</h1><pre class="source lang-java linenums">package com.mycompany.app.models;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Car {
+    private String make;
+    private String model;
+    private String color;
+    private String plateState;
+    private String plateSerial;
+
+<span class="nc" id="L12">    public Car() {</span>
+<span class="nc" id="L13">    }</span>
+
+<span class="nc" id="L15">    public Car(String make, String model, String color, String plateState, String plateSerial) {</span>
+<span class="nc" id="L16">        this.make = make;</span>
+<span class="nc" id="L17">        this.model = model;</span>
+<span class="nc" id="L18">        this.color = color;</span>
+<span class="nc" id="L19">        this.plateState = plateState;</span>
+<span class="nc" id="L20">        this.plateSerial = plateSerial;</span>
+<span class="nc" id="L21">    }</span>
+
+    @JsonProperty(&quot;make&quot;)
+    public String getMake() {
+<span class="nc" id="L25">        return this.make;</span>
+    }
+
+    public void setMake(String make) {
+<span class="nc" id="L29">        this.make = make;</span>
+<span class="nc" id="L30">    }</span>
+
+    @JsonProperty(&quot;model&quot;)
+    public String getModel() {
+<span class="nc" id="L34">        return this.model;</span>
+    }
+
+    public void setModel(String model) {
+<span class="nc" id="L38">        this.model = model;</span>
+<span class="nc" id="L39">    }</span>
+
+    @JsonProperty(&quot;color&quot;)
+    public String getColor() {
+<span class="nc" id="L43">        return this.color;</span>
+    }
+
+    public void setColor(String color) {
+<span class="nc" id="L47">        this.color = color;</span>
+<span class="nc" id="L48">    }</span>
+
+    @JsonProperty(&quot;plate_state&quot;)
+    public String getPlateState() {
+<span class="nc" id="L52">        return this.plateState;</span>
+    }
+
+    public void setPlateState(String plateState) {
+<span class="nc" id="L56">        this.plateState = plateState;</span>
+<span class="nc" id="L57">    }</span>
+
+    @JsonProperty(&quot;plate_serial&quot;)
+    public String getPlateSerial() {
+<span class="nc" id="L61">        return this.plateSerial;</span>
+    }
+
+    public void setPlateSerial(String plateSerial) {
+<span class="nc" id="L65">        this.plateSerial = plateSerial;</span>
+<span class="nc" id="L66">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L70">        return &quot;{&quot; + &quot; make='&quot; + getMake() + &quot;'&quot; + &quot;, model='&quot; + getModel() + &quot;'&quot; + &quot;, color='&quot; + getColor() + &quot;'&quot;</span>
+<span class="nc" id="L71">                + &quot;, plateState='&quot; + getPlateState() + &quot;'&quot; + &quot;, plateSerial='&quot; + getPlateSerial() + &quot;'&quot; + &quot;}&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SarService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareAride</a> &gt; <a href="index.source.html" class="el_package">com.mycompany.app</a> &gt; <span class="el_source">SarService.java</span></div><h1>SarService.java</h1><pre class="source lang-java linenums">package com.mycompany.app;
+
+import java.util.*;
+import java.util.regex.Pattern;
+
+import javax.ws.rs.*;
+import org.json.JSONObject;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.Response.Status;
+import io.dropwizard.jersey.PATCH;
+
+import com.mycompany.app.models.*;
+import com.mycompany.app.repositories.*;
+import com.mycompany.app.boundaryInterfaces.*;
+import com.codahale.metrics.annotation.Timed;
+
+@Path(&quot;/sar&quot;)
+public class SarService {
+
+<span class="nc" id="L23">    RideBoundaryInterface rideRepo = new RideRepository();</span>
+<span class="nc" id="L24">    UserBoundaryInterface userRepo = new UserRepository();</span>
+
+<span class="nc" id="L26">    final String PHONE_NUMBER_REGEX = &quot;^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$&quot;;</span>
+
+<span class="nc" id="L28">    public SarService() {</span>
+<span class="nc" id="L29">    }</span>
+
+    private Map&lt;String, Object&gt; validationErrorResponse(String detail, String instance) {
+<span class="nc" id="L32">        JSONObject jsonObject = new JSONObject();</span>
+<span class="nc" id="L33">        jsonObject.put(&quot;type&quot;, &quot;http://cs.iit.edu/~virgil/cs445/project/api/problems/data-validation&quot;);</span>
+<span class="nc" id="L34">        jsonObject.put(&quot;title&quot;, &quot;Your request data didn't pass validation&quot;);</span>
+<span class="nc" id="L35">        jsonObject.put(&quot;detail&quot;, detail);</span>
+<span class="nc" id="L36">        jsonObject.put(&quot;status&quot;, 400);</span>
+<span class="nc" id="L37">        jsonObject.put(&quot;instance&quot;, instance);</span>
+<span class="nc" id="L38">        return jsonObject.toMap();</span>
+    }
+
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path(&quot;/accounts&quot;)
+    public Response createAccount(User user) {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (user.getFirstName() == null) {</span>
+<span class="nc" id="L48">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L49">                    .entity(validationErrorResponse(&quot;Invalid first name&quot;, &quot;/accounts&quot;)).build();</span>
+        }
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (user.getLastName() == null) {</span>
+<span class="nc" id="L52">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L53">                    .entity(validationErrorResponse(&quot;Invalid last number&quot;, &quot;/accounts&quot;)).build();</span>
+        }
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (!Pattern.compile(PHONE_NUMBER_REGEX).matcher(user.getCellPhone()).matches()) {</span>
+<span class="nc" id="L56">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L57">                    .entity(validationErrorResponse(&quot;Invalid phone number&quot;, &quot;/accounts&quot;)).build();</span>
+        }
+<span class="nc" id="L59">        int aid = userRepo.createAccount(user);</span>
+<span class="nc" id="L60">        JSONObject jsonObject = (new JSONObject().put(&quot;aid&quot;, aid));</span>
+<span class="nc" id="L61">        return Response.created(UriBuilder.fromPath(&quot;accounts/&quot; + aid).build()).entity(jsonObject.toMap()).build();</span>
+    }
+
+    @PUT
+    @Timed
+    @Path(&quot;/accounts/{aid}/status&quot;)
+    public Response changeAccountStatus(@PathParam(&quot;aid&quot;) int aid) {
+<span class="nc" id="L68">        boolean result = userRepo.confirmAccount(aid);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (!result)</span>
+<span class="nc" id="L70">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L71">        return Response.noContent().build();</span>
+    }
+
+    @PUT
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path(&quot;/accounts/{aid}&quot;)
+    public Response updateAccount(@PathParam(&quot;aid&quot;) int aid, User user) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (user.getFirstName() == null) {</span>
+<span class="nc" id="L80">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L81">                    .entity(validationErrorResponse(&quot;first_name invalid&quot;, &quot;/accounts/&quot; + aid)).build();</span>
+        }
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (user.getLastName() == null) {</span>
+<span class="nc" id="L84">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L85">                    .entity(validationErrorResponse(&quot;last_name invalid&quot;, &quot;/accounts/&quot; + aid)).build();</span>
+        }
+<span class="nc" id="L87">        boolean result = userRepo.updateAccount(user, aid);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (!result)</span>
+<span class="nc" id="L89">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L90">        return Response.noContent().build();</span>
+    }
+
+    @DELETE
+    @Timed
+    @Path(&quot;/accounts/{aid}&quot;)
+    public Response deleteAccount(@PathParam(&quot;aid&quot;) int aid) {
+<span class="nc" id="L97">        boolean result = userRepo.deleteAccount(aid);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (!result)</span>
+<span class="nc" id="L99">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L100">        return Response.noContent().build();</span>
+    }
+
+    @GET
+    @Timed
+    @Path(&quot;/accounts&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response accounts(@QueryParam(&quot;key&quot;) String key) {
+<span class="nc" id="L108">        List&lt;Map&lt;String, Object&gt;&gt; users = userRepo.accounts(key);</span>
+<span class="nc" id="L109">        return Response.ok(users, MediaType.APPLICATION_JSON).build();</span>
+    }
+
+    @GET
+    @Timed
+    @Path(&quot;/accounts/{aid}&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response account(@PathParam(&quot;aid&quot;) int aid) {
+<span class="nc" id="L117">        Map&lt;String, Object&gt; jsonUser = userRepo.account(aid);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (jsonUser == null)</span>
+<span class="nc" id="L119">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L120">        return Response.ok(jsonUser, MediaType.APPLICATION_JSON).build();</span>
+    }
+
+    @POST
+    @Timed
+    @Path(&quot;/accounts/{aid}/ratings&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response rateAccount(@PathParam(&quot;aid&quot;) int aid, Rating rating) {
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (rating.getRid() == 0) {</span>
+<span class="nc" id="L129">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L130">                    .entity(validationErrorResponse(&quot;rid is invalid&quot;, &quot;/accounts/&quot; + aid + &quot;/ratings&quot;)).build();</span>
+        }
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (rating.getSentBy() == 0) {</span>
+<span class="nc" id="L133">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L134">                    .entity(validationErrorResponse(&quot;sent_by_id is invalid&quot;, &quot;/accounts/&quot; + aid + &quot;/ratings&quot;)).build();</span>
+        }
+
+<span class="nc bnc" id="L137" title="All 4 branches missed.">        if (rating.getRating() &lt; 1 || rating.getRating() &gt; 5) {</span>
+<span class="nc" id="L138">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L139">                    .entity(validationErrorResponse(&quot;rating is invalid: must be between 1 and 5&quot;,</span>
+                            &quot;/accounts/&quot; + aid + &quot;/ratings&quot;))
+<span class="nc" id="L141">                    .build();</span>
+        }
+<span class="nc" id="L143">        int sid = userRepo.createRating(rating, aid);</span>
+<span class="nc" id="L144">        JSONObject jsonObject = (new JSONObject().put(&quot;sid&quot;, sid));</span>
+<span class="nc" id="L145">        return Response.created(UriBuilder.fromPath(&quot;accounts/&quot; + aid + &quot;/ratings/&quot; + sid).build())</span>
+<span class="nc" id="L146">                .entity(jsonObject.toMap()).build();</span>
+    }
+
+    @GET
+    @Timed
+    @Path(&quot;/accounts/{aid}/driver&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response driverRatings(@PathParam(&quot;aid&quot;) int aid) {
+<span class="nc" id="L154">        Map&lt;String, Object&gt; jsonUserRides = userRepo.getRating(aid);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (jsonUserRides == null)</span>
+<span class="nc" id="L156">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L157">        return Response.ok(jsonUserRides, MediaType.APPLICATION_JSON).build();</span>
+    }
+
+    @GET
+    @Timed
+    @Path(&quot;/accounts/{aid}/rider&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response riderRatings(@PathParam(&quot;aid&quot;) int aid) {
+<span class="nc" id="L165">        Map&lt;String, Object&gt; jsonUserRides = userRepo.getRating(aid);</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (jsonUserRides == null)</span>
+<span class="nc" id="L167">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L168">        return Response.ok(jsonUserRides, MediaType.APPLICATION_JSON).build();</span>
+    }
+
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path(&quot;/rides&quot;)
+    public Response createRide(Ride ride) {
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if (ride.getAid() == 0) {</span>
+<span class="nc" id="L178">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;aid invalid&quot;, &quot;/rides&quot;)).build();</span>
+        }
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (ride.getLocationInfo().getFromCity() == null) {</span>
+<span class="nc" id="L181">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;from_city invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L182">                    .build();</span>
+        }
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        if (ride.getLocationInfo().getToCity() == null) {</span>
+<span class="nc" id="L185">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;to_city invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L186">                    .build();</span>
+        }
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        if (ride.getRideDateTime().getDate() == null) {</span>
+<span class="nc" id="L189">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;date invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L190">                    .build();</span>
+        }
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (ride.getRideDateTime().getTime() == null) {</span>
+<span class="nc" id="L193">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;time invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L194">                    .build();</span>
+        }
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        if (ride.getCar().getMake() == null) {</span>
+<span class="nc" id="L197">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;make invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L198">                    .build();</span>
+        }
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        if (ride.getCar().getModel() == null) {</span>
+<span class="nc" id="L201">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;model invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L202">                    .build();</span>
+        }
+<span class="nc bnc" id="L204" title="All 2 branches missed.">        if (ride.getCar().getColor() == null) {</span>
+<span class="nc" id="L205">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;color invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L206">                    .build();</span>
+        }
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (ride.getCar().getPlateState() == null) {</span>
+<span class="nc" id="L209">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;plate_state invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L210">                    .build();</span>
+        }
+<span class="nc bnc" id="L212" title="All 2 branches missed.">        if (ride.getCar().getPlateSerial() == null) {</span>
+<span class="nc" id="L213">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;plate_serial invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L214">                    .build();</span>
+        }
+<span class="nc bnc" id="L216" title="All 2 branches missed.">        if (ride.getConditions() == null) {</span>
+<span class="nc" id="L217">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;conditions invalid&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L218">                    .build();</span>
+        }
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        if (ride.getMaxPassengers() &lt; 0) {</span>
+<span class="nc" id="L221">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L222">                    .entity(validationErrorResponse(&quot;max passengers must be greater than 0&quot;, &quot;/rides&quot;)).build();</span>
+        }
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (ride.getAmountPerPassenger() &lt; 0) {</span>
+<span class="nc" id="L225">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L226">                    .entity(validationErrorResponse(&quot;ammount per passenger must be greater than 0&quot;, &quot;/rides&quot;)).build();</span>
+        }
+<span class="nc" id="L228">        int rid = rideRepo.postRide(ride, userRepo);</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">        if (rid &lt; 0)</span>
+<span class="nc" id="L230">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L231">                    .entity(validationErrorResponse(</span>
+<span class="nc" id="L232">                            &quot;This account (&quot; + ride.getAid() + &quot;) is not active, may not create a ride.&quot;, &quot;/rides&quot;))</span>
+<span class="nc" id="L233">                    .build();</span>
+<span class="nc" id="L234">        JSONObject jsonObject = (new JSONObject().put(&quot;rid&quot;, rid));</span>
+<span class="nc" id="L235">        return Response.created(UriBuilder.fromPath(&quot;rides/&quot; + rid).build()).entity(jsonObject.toMap()).build();</span>
+    }
+
+    @PUT
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path(&quot;/rides/{rid}&quot;)
+    public Response updateRide(@PathParam(&quot;rid&quot;) int rid, Ride ride) {
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        if (ride.getAid() == 0) {</span>
+<span class="nc" id="L245">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;aid invalid&quot;, &quot;/rides/&quot; + rid))</span>
+<span class="nc" id="L246">                    .build();</span>
+        }
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        if (ride.getLocationInfo().getFromCity() == null) {</span>
+<span class="nc" id="L249">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L250">                    .entity(validationErrorResponse(&quot;from_city invalid&quot;, &quot;/rides/&quot; + rid)).build();</span>
+        }
+<span class="nc bnc" id="L252" title="All 2 branches missed.">        if (ride.getLocationInfo().getToCity() == null) {</span>
+<span class="nc" id="L253">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L254">                    .entity(validationErrorResponse(&quot;to_city invalid&quot;, &quot;/rides/&quot; + rid)).build();</span>
+        }
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        if (ride.getRideDateTime().getDate() == null) {</span>
+<span class="nc" id="L257">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;date invalid&quot;, &quot;/rides/&quot; + rid))</span>
+<span class="nc" id="L258">                    .build();</span>
+        }
+<span class="nc bnc" id="L260" title="All 2 branches missed.">        if (ride.getRideDateTime().getTime() == null) {</span>
+<span class="nc" id="L261">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;time invalid&quot;, &quot;/rides/&quot; + rid))</span>
+<span class="nc" id="L262">                    .build();</span>
+        }
+<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (ride.getCar().getMake() == null) {</span>
+<span class="nc" id="L265">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;make invalid&quot;, &quot;/rides/&quot; + rid))</span>
+<span class="nc" id="L266">                    .build();</span>
+        }
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (ride.getCar().getModel() == null) {</span>
+<span class="nc" id="L269">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;model invalid&quot;, &quot;/rides/&quot; + rid))</span>
+<span class="nc" id="L270">                    .build();</span>
+        }
+<span class="nc bnc" id="L272" title="All 2 branches missed.">        if (ride.getCar().getColor() == null) {</span>
+<span class="nc" id="L273">            return Response.status(Status.BAD_REQUEST).entity(validationErrorResponse(&quot;color invalid&quot;, &quot;/rides/&quot; + rid))</span>
+<span class="nc" id="L274">                    .build();</span>
+        }
+<span class="nc bnc" id="L276" title="All 2 branches missed.">        if (ride.getCar().getPlateState() == null) {</span>
+<span class="nc" id="L277">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L278">                    .entity(validationErrorResponse(&quot;plate_state invalid&quot;, &quot;/rides/&quot; + rid)).build();</span>
+        }
+<span class="nc bnc" id="L280" title="All 2 branches missed.">        if (ride.getCar().getPlateSerial() == null) {</span>
+<span class="nc" id="L281">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L282">                    .entity(validationErrorResponse(&quot;plate_serial invalid&quot;, &quot;/rides/&quot; + rid)).build();</span>
+        }
+<span class="nc" id="L284">        boolean result = rideRepo.updateRide(ride, rid);</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">        if (!result)</span>
+<span class="nc" id="L286">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L287">        return Response.noContent().build();</span>
+    }
+
+    @DELETE
+    @Timed
+    @Path(&quot;/rides/{rid}&quot;)
+    public Response deleteRide(@PathParam(&quot;rid&quot;) int rid) {
+<span class="nc" id="L294">        boolean result = rideRepo.deleteRide(rid);</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">        if (!result)</span>
+<span class="nc" id="L296">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L297">        return Response.noContent().build();</span>
+    }
+
+    @GET
+    @Timed
+    @Path(&quot;/rides&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response rides(@QueryParam(&quot;from&quot;) String from, @QueryParam(&quot;to&quot;) String to,
+            @QueryParam(&quot;date&quot;) String date) {
+<span class="nc" id="L306">        List&lt;Map&lt;String, Object&gt;&gt; rides = rideRepo.rides(from, to, date);</span>
+<span class="nc" id="L307">        return Response.ok(rides, MediaType.APPLICATION_JSON).build();</span>
+    }
+
+    @GET
+    @Timed
+    @Path(&quot;/rides/{rid}&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response ride(@PathParam(&quot;rid&quot;) int rid) {
+<span class="nc" id="L315">        Map&lt;String, Object&gt; jsonRide = rideRepo.ride(rid, userRepo);</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        if (jsonRide == null)</span>
+<span class="nc" id="L317">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L318">        return Response.ok(jsonRide, MediaType.APPLICATION_JSON).build();</span>
+    }
+
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path(&quot;/rides/{rid}/join_requests&quot;)
+    public Response joinRequest(@PathParam(&quot;rid&quot;) int rid, JoinRequest joinRequest) {
+<span class="nc bnc" id="L327" title="All 2 branches missed.">        if (joinRequest.getAid() == 0) {</span>
+<span class="nc" id="L328">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L329">                    .entity(validationErrorResponse(&quot;aid invalid&quot;, &quot;/rides/&quot; + rid + &quot;/join_requests&quot;)).build();</span>
+        }
+<span class="nc bnc" id="L331" title="All 2 branches missed.">        if (joinRequest.getPassengers() == 0) {</span>
+<span class="nc" id="L332">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L333">                    .entity(validationErrorResponse(&quot;passengers invalid&quot;, &quot;/rides/&quot; + rid + &quot;/join_requests&quot;)).build();</span>
+        }
+<span class="nc" id="L335">        int jid = rideRepo.joinRide(rid, joinRequest);</span>
+<span class="nc" id="L336">        JSONObject jsonObject = (new JSONObject().put(&quot;jid&quot;, jid));</span>
+<span class="nc" id="L337">        return Response.created(UriBuilder.fromPath(&quot;rides/&quot; + rid + &quot;/join_requests/&quot; + jid).build())</span>
+<span class="nc" id="L338">                .entity(jsonObject.toMap()).build();</span>
+    }
+
+    @PATCH
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path(&quot;/rides/{rid}/join_requests/{jid}&quot;)
+    public Response rideRequestStatus(@PathParam(&quot;rid&quot;) int rid, @PathParam(&quot;jid&quot;) int jid,
+            RideRequestStatus rideRequestStatus) {
+<span class="nc" id="L347">        boolean success = rideRepo.rideRequestStatus(rid, jid, rideRequestStatus);</span>
+<span class="nc" id="L348">        boolean success1 = rideRepo.ridePickupStatus(rid, jid, rideRequestStatus);</span>
+<span class="nc bnc" id="L349" title="All 4 branches missed.">        if (!success &amp;&amp; !success1)</span>
+<span class="nc" id="L350">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L351">        return Response.ok().build();</span>
+    }
+
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path(&quot;/rides/{rid}/messages&quot;)
+    public Response addMessage(@PathParam(&quot;rid&quot;) int rid, Message message) {
+<span class="nc bnc" id="L360" title="All 2 branches missed.">        if (message.getAid() == 0) {</span>
+<span class="nc" id="L361">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L362">                    .entity(validationErrorResponse(&quot;aid invalid&quot;, &quot;/rides/&quot; + rid + &quot;/messages&quot;)).build();</span>
+        }
+<span class="nc bnc" id="L364" title="All 2 branches missed.">        if (message.getMessage() == null) {</span>
+<span class="nc" id="L365">            return Response.status(Status.BAD_REQUEST)</span>
+<span class="nc" id="L366">                    .entity(validationErrorResponse(&quot;message invalid&quot;, &quot;/rides/&quot; + rid + &quot;/messages&quot;)).build();</span>
+        }
+<span class="nc" id="L368">        int mid = rideRepo.addMessage(rid, message);</span>
+<span class="nc" id="L369">        JSONObject jsonObject = (new JSONObject().put(&quot;mid&quot;, mid));</span>
+<span class="nc" id="L370">        return Response.created(UriBuilder.fromPath(&quot;rides/&quot; + rid + &quot;/messages/&quot; + mid).build())</span>
+<span class="nc" id="L371">                .entity(jsonObject.toMap()).build();</span>
+    }
+
+    @GET
+    @Timed
+    @Path(&quot;/rides/{rid}/messages&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response message(@PathParam(&quot;rid&quot;) int rid) {
+<span class="nc" id="L379">        List&lt;Map&lt;String, Object&gt;&gt; messages = rideRepo.messages(rid);</span>
+<span class="nc bnc" id="L380" title="All 2 branches missed.">        if (messages == null) {</span>
+<span class="nc" id="L381">            return Response.status(Status.NOT_FOUND).build();</span>
+        }
+<span class="nc" id="L383">        return Response.ok(messages, MediaType.APPLICATION_JSON).build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
