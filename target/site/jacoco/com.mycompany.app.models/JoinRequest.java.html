@@ -12,9 +12,9 @@ public class JoinRequest {
     private boolean rideConfirmed;
     private boolean pickUpConifrmed;
 
-<span class="nc" id="L15">    public JoinRequest() {</span>
+<span class="fc" id="L15">    public JoinRequest() {</span>
 
-<span class="nc" id="L17">    }</span>
+<span class="fc" id="L17">    }</span>
 
 <span class="nc" id="L19">    public JoinRequest(int aid, int passengers, boolean rideConfirmed, boolean pickUpConifrmed) {</span>
 <span class="nc" id="L20">        this.aid = aid;</span>
@@ -68,13 +68,13 @@ public class JoinRequest {
 <span class="nc" id="L68">    }</span>
 
     public int setJid() {
-<span class="nc" id="L71">        int id = UniqueIdGenerator.getUniqueID();</span>
-<span class="nc" id="L72">        this.jid = id;</span>
-<span class="nc" id="L73">        return id;</span>
+<span class="fc" id="L71">        int id = UniqueIdGenerator.getUniqueID();</span>
+<span class="fc" id="L72">        this.jid = id;</span>
+<span class="fc" id="L73">        return id;</span>
     }
 
     public int getJid() {
-<span class="nc" id="L77">        return jid;</span>
+<span class="fc" id="L77">        return jid;</span>
     }
 
     @Override

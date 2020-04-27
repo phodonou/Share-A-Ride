@@ -64,10 +64,4 @@ public class Car {
     public void setPlateSerial(String plateSerial) {
         this.plateSerial = plateSerial;
     }
-
-    @Override
-    public String toString() {
-        return "{" + " make='" + getMake() + "'" + ", model='" + getModel() + "'" + ", color='" + getColor() + "'"
-                + ", plateState='" + getPlateState() + "'" + ", plateSerial='" + getPlateSerial() + "'" + "}";
-    }
 }

@@ -22,33 +22,33 @@ public class Ride {
 <span class="nc" id="L22">    }</span>
 
     public Ride(int aid, RideDateTime rideDateTime, int maxPassengers, int amountPerPassenger, String conditions,
-<span class="nc" id="L25">            Car car, LocationInfo locationInfo) {</span>
-<span class="nc" id="L26">        this.aid = aid;</span>
-<span class="nc" id="L27">        this.rideDateTime = rideDateTime;</span>
-<span class="nc" id="L28">        this.maxPassengers = maxPassengers;</span>
-<span class="nc" id="L29">        this.amountPerPassenger = amountPerPassenger;</span>
-<span class="nc" id="L30">        this.conditions = conditions;</span>
-<span class="nc" id="L31">        this.car = car;</span>
-<span class="nc" id="L32">        this.locationInfo = locationInfo;</span>
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L25">            Car car, LocationInfo locationInfo) {</span>
+<span class="fc" id="L26">        this.aid = aid;</span>
+<span class="fc" id="L27">        this.rideDateTime = rideDateTime;</span>
+<span class="fc" id="L28">        this.maxPassengers = maxPassengers;</span>
+<span class="fc" id="L29">        this.amountPerPassenger = amountPerPassenger;</span>
+<span class="fc" id="L30">        this.conditions = conditions;</span>
+<span class="fc" id="L31">        this.car = car;</span>
+<span class="fc" id="L32">        this.locationInfo = locationInfo;</span>
+<span class="fc" id="L33">    }</span>
 
     public int getRid() {
-<span class="nc" id="L36">        return this.rid;</span>
+<span class="fc" id="L36">        return this.rid;</span>
     }
 
     public int setRid() {
-<span class="nc" id="L40">        int id = UniqueIdGenerator.getUniqueID();</span>
-<span class="nc" id="L41">        this.rid = id;</span>
-<span class="nc" id="L42">        return id;</span>
+<span class="fc" id="L40">        int id = UniqueIdGenerator.getUniqueID();</span>
+<span class="fc" id="L41">        this.rid = id;</span>
+<span class="fc" id="L42">        return id;</span>
     }
 
     public void replaceRid(int rid) {
-<span class="nc" id="L46">        this.rid = aid;</span>
-<span class="nc" id="L47">    }</span>
+<span class="fc" id="L46">        this.rid = aid;</span>
+<span class="fc" id="L47">    }</span>
 
     @JsonProperty(&quot;aid&quot;)
     public int getAid() {
-<span class="nc" id="L51">        return this.aid;</span>
+<span class="fc" id="L51">        return this.aid;</span>
     }
 
     public void setAid(int aid) {
@@ -57,7 +57,7 @@ public class Ride {
 
     @JsonProperty(&quot;date_time&quot;)
     public RideDateTime getRideDateTime() {
-<span class="nc" id="L60">        return this.rideDateTime;</span>
+<span class="fc" id="L60">        return this.rideDateTime;</span>
     }
 
     public void setRideDateTime(RideDateTime rideDateTime) {
@@ -93,7 +93,7 @@ public class Ride {
 
     @JsonProperty(&quot;car_info&quot;)
     public Car getCar() {
-<span class="nc" id="L96">        return this.car;</span>
+<span class="fc" id="L96">        return this.car;</span>
     }
 
     public void setCar(Car car) {
@@ -102,7 +102,7 @@ public class Ride {
 
     @JsonProperty(&quot;location_info&quot;)
     public LocationInfo getLocationInfo() {
-<span class="nc" id="L105">        return this.locationInfo;</span>
+<span class="fc" id="L105">        return this.locationInfo;</span>
     }
 
     public void setLocationInfo(LocationInfo locationInfo) {
@@ -110,28 +110,28 @@ public class Ride {
 <span class="nc" id="L110">    }</span>
 
     public void setJoinRequest() {
-<span class="nc" id="L113">        joinRequests = new ArrayList&lt;JoinRequest&gt;();</span>
-<span class="nc" id="L114">    }</span>
+<span class="fc" id="L113">        joinRequests = new ArrayList&lt;JoinRequest&gt;();</span>
+<span class="fc" id="L114">    }</span>
 
     public ArrayList&lt;JoinRequest&gt; getJoinRequests() {
-<span class="nc" id="L117">        return joinRequests;</span>
+<span class="fc" id="L117">        return joinRequests;</span>
     }
 
     public void addJoinRequest(JoinRequest joinRequest) {
-<span class="nc" id="L121">        this.joinRequests.add(joinRequest);</span>
-<span class="nc" id="L122">    }</span>
+<span class="fc" id="L121">        this.joinRequests.add(joinRequest);</span>
+<span class="fc" id="L122">    }</span>
 
     public void setMessages() {
-<span class="nc" id="L125">        messages = new ArrayList&lt;Message&gt;();</span>
-<span class="nc" id="L126">    }</span>
+<span class="fc" id="L125">        messages = new ArrayList&lt;Message&gt;();</span>
+<span class="fc" id="L126">    }</span>
 
     public ArrayList&lt;Message&gt; getMessages() {
-<span class="nc" id="L129">        return messages;</span>
+<span class="fc" id="L129">        return messages;</span>
     }
 
     public void addMessage(Message message) {
-<span class="nc" id="L133">        this.messages.add(message);</span>
-<span class="nc" id="L134">    }</span>
+<span class="fc" id="L133">        this.messages.add(message);</span>
+<span class="fc" id="L134">    }</span>
 
     @Override
     public String toString() {

@@ -16,58 +16,58 @@ public class User {
     private String dateCreated;
     private int numOfRides;
 
-<span class="nc" id="L19">    public User() {</span>
-<span class="nc" id="L20">    }</span>
+<span class="fc" id="L19">    public User() {</span>
+<span class="fc" id="L20">    }</span>
 
-<span class="nc" id="L22">    public User(String firstName, String lastName, String cellPhone, String picture, boolean isActive) {</span>
-<span class="nc" id="L23">        this.firstName = firstName;</span>
-<span class="nc" id="L24">        this.lastName = lastName;</span>
-<span class="nc" id="L25">        this.cellPhone = cellPhone;</span>
-<span class="nc" id="L26">        this.picture = picture;</span>
-<span class="nc" id="L27">        this.isActive = isActive;</span>
-<span class="nc" id="L28">    }</span>
+<span class="fc" id="L22">    public User(String firstName, String lastName, String cellPhone, String picture, boolean isActive) {</span>
+<span class="fc" id="L23">        this.firstName = firstName;</span>
+<span class="fc" id="L24">        this.lastName = lastName;</span>
+<span class="fc" id="L25">        this.cellPhone = cellPhone;</span>
+<span class="fc" id="L26">        this.picture = picture;</span>
+<span class="fc" id="L27">        this.isActive = isActive;</span>
+<span class="fc" id="L28">    }</span>
 
     @JsonProperty(&quot;first_name&quot;)
     public String getFirstName() {
-<span class="nc" id="L32">        return firstName;</span>
+<span class="fc" id="L32">        return firstName;</span>
     }
 
     @JsonProperty(&quot;last_name&quot;)
     public String getLastName() {
-<span class="nc" id="L37">        return lastName;</span>
+<span class="fc" id="L37">        return lastName;</span>
     }
 
     @JsonProperty(&quot;phone&quot;)
     public String getCellPhone() {
-<span class="nc" id="L42">        return cellPhone;</span>
+<span class="fc" id="L42">        return cellPhone;</span>
     }
 
     @JsonProperty(&quot;picture&quot;)
     public String getPicture() {
-<span class="nc" id="L47">        return picture;</span>
+<span class="fc" id="L47">        return picture;</span>
     }
 
     @JsonProperty(&quot;is_active&quot;)
     public boolean getIsActive() {
-<span class="nc" id="L52">        return isActive;</span>
+<span class="fc" id="L52">        return isActive;</span>
     }
 
     public ArrayList&lt;Rating&gt; getRatings() {
-<span class="nc" id="L56">        return ratings;</span>
+<span class="fc" id="L56">        return ratings;</span>
     }
 
     public int getAid() {
-<span class="nc" id="L60">        return aid;</span>
+<span class="fc" id="L60">        return aid;</span>
     }
 
     public int setAid() {
-<span class="nc" id="L64">        int id = UniqueIdGenerator.getUniqueID();</span>
-<span class="nc" id="L65">        this.aid = id;</span>
-<span class="nc" id="L66">        return id;</span>
+<span class="fc" id="L64">        int id = UniqueIdGenerator.getUniqueID();</span>
+<span class="fc" id="L65">        this.aid = id;</span>
+<span class="fc" id="L66">        return id;</span>
     }
 
     public int getNumOfRides() {
-<span class="nc" id="L70">        return numOfRides;</span>
+<span class="fc" id="L70">        return numOfRides;</span>
     }
 
     public void increaseNumOfRides() {
@@ -75,28 +75,28 @@ public class User {
 <span class="nc" id="L75">    }</span>
 
     public String getDateCreated() {
-<span class="nc" id="L78">        return dateCreated;</span>
+<span class="fc" id="L78">        return dateCreated;</span>
     }
 
     public void setDateCreated(String dateCreated) {
-<span class="nc" id="L82">        this.dateCreated = dateCreated;</span>
-<span class="nc" id="L83">    }</span>
+<span class="fc" id="L82">        this.dateCreated = dateCreated;</span>
+<span class="fc" id="L83">    }</span>
 
     public void setRating() {
-<span class="nc" id="L86">        this.ratings = new ArrayList&lt;Rating&gt;();</span>
-<span class="nc" id="L87">    }</span>
+<span class="fc" id="L86">        this.ratings = new ArrayList&lt;Rating&gt;();</span>
+<span class="fc" id="L87">    }</span>
 
     public void replaceAid(int aid) {
-<span class="nc" id="L90">        this.aid = aid;</span>
-<span class="nc" id="L91">    }</span>
+<span class="fc" id="L90">        this.aid = aid;</span>
+<span class="fc" id="L91">    }</span>
 
     public void addRating(Rating rating) {
-<span class="nc" id="L94">        this.ratings.add(rating);</span>
-<span class="nc" id="L95">    }</span>
+<span class="fc" id="L94">        this.ratings.add(rating);</span>
+<span class="fc" id="L95">    }</span>
 
     public void confirmAccount() {
-<span class="nc" id="L98">        isActive = true;</span>
-<span class="nc" id="L99">    }</span>
+<span class="fc" id="L98">        isActive = true;</span>
+<span class="fc" id="L99">    }</span>
 
     @Override
     public String toString() {

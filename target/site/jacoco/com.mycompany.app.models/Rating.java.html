@@ -12,29 +12,29 @@ public class Rating {
     private int rating;
     private String comment;
 
-<span class="nc" id="L15">    public Rating() {</span>
-<span class="nc" id="L16">    }</span>
+<span class="fc" id="L15">    public Rating() {</span>
+<span class="fc" id="L16">    }</span>
 
-<span class="nc" id="L18">    public Rating(int rid, int sentBy, int rating, String comment) {</span>
-<span class="nc" id="L19">        this.rid = rid;</span>
-<span class="nc" id="L20">        this.sentBy = sentBy;</span>
-<span class="nc" id="L21">        this.rating = rating;</span>
-<span class="nc" id="L22">        this.comment = comment;</span>
-<span class="nc" id="L23">    }</span>
+<span class="fc" id="L18">    public Rating(int rid, int sentBy, int rating, String comment) {</span>
+<span class="fc" id="L19">        this.rid = rid;</span>
+<span class="fc" id="L20">        this.sentBy = sentBy;</span>
+<span class="fc" id="L21">        this.rating = rating;</span>
+<span class="fc" id="L22">        this.comment = comment;</span>
+<span class="fc" id="L23">    }</span>
 
     public int getSid() {
 <span class="nc" id="L26">        return this.sid;</span>
     }
 
     public int setSid() {
-<span class="nc" id="L30">        int id = UniqueIdGenerator.getUniqueID();</span>
-<span class="nc" id="L31">        this.rid = id;</span>
-<span class="nc" id="L32">        return id;</span>
+<span class="fc" id="L30">        int id = UniqueIdGenerator.getUniqueID();</span>
+<span class="fc" id="L31">        this.rid = id;</span>
+<span class="fc" id="L32">        return id;</span>
     }
 
     @JsonProperty(&quot;rid&quot;)
     public int getRid() {
-<span class="nc" id="L37">        return this.rid;</span>
+<span class="fc" id="L37">        return this.rid;</span>
     }
 
     public void setRid(int rid) {
@@ -43,7 +43,7 @@ public class Rating {
 
     @JsonProperty(&quot;sent_by_id&quot;)
     public int getSentBy() {
-<span class="nc" id="L46">        return this.sentBy;</span>
+<span class="fc" id="L46">        return this.sentBy;</span>
     }
 
     public void setSentBy(int sentBy) {
@@ -51,16 +51,16 @@ public class Rating {
 <span class="nc" id="L51">    }</span>
 
     public String getRatingDate() {
-<span class="nc" id="L54">        return this.ratingDate;</span>
+<span class="fc" id="L54">        return this.ratingDate;</span>
     }
 
     public void setRatingDate(String ratingDate) {
-<span class="nc" id="L58">        this.ratingDate = ratingDate;</span>
-<span class="nc" id="L59">    }</span>
+<span class="fc" id="L58">        this.ratingDate = ratingDate;</span>
+<span class="fc" id="L59">    }</span>
 
     @JsonProperty(&quot;rating&quot;)
     public int getRating() {
-<span class="nc" id="L63">        return this.rating;</span>
+<span class="fc" id="L63">        return this.rating;</span>
     }
 
     public void setRating(int rating) {
@@ -69,7 +69,7 @@ public class Rating {
 
     @JsonProperty(&quot;comment&quot;)
     public String getComment() {
-<span class="nc" id="L72">        return this.comment;</span>
+<span class="fc" id="L72">        return this.comment;</span>
     }
 
     public void setComment(String comment) {

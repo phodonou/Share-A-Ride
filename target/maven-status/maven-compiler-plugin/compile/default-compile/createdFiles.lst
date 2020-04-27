@@ -7,7 +7,6 @@ com/mycompany/app/AppHealthCheck.class
 com/mycompany/app/models/RideRequestStatus.class
 com/mycompany/app/models/RideDateTime.class
 com/mycompany/app/utilities/UniqueIdGenerator.class
-com/mycompany/app/models/BusinessOwner.class
 com/mycompany/app/models/Car.class
 com/mycompany/app/models/Rating.class
 com/mycompany/app/models/LocationInfo.class

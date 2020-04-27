@@ -11,9 +11,9 @@ public class Message {
     private int aid;
     private String dateCreated;
 
-<span class="nc" id="L14">    public Message() {</span>
+<span class="fc" id="L14">    public Message() {</span>
 
-<span class="nc" id="L16">    }</span>
+<span class="fc" id="L16">    }</span>
 
 <span class="nc" id="L18">    public Message(String message, int aid) {</span>
 <span class="nc" id="L19">        this.message = message;</span>
@@ -39,9 +39,9 @@ public class Message {
     }
 
     public int setMid() {
-<span class="nc" id="L42">        int id = UniqueIdGenerator.getUniqueID();</span>
-<span class="nc" id="L43">        this.mid = id;</span>
-<span class="nc" id="L44">        return id;</span>
+<span class="fc" id="L42">        int id = UniqueIdGenerator.getUniqueID();</span>
+<span class="fc" id="L43">        this.mid = id;</span>
+<span class="fc" id="L44">        return id;</span>
     }
 
     public void setMessage(String message) {
@@ -53,8 +53,8 @@ public class Message {
     }
 
     public void setDateCreated(String dateCreated) {
-<span class="nc" id="L56">        this.dateCreated = dateCreated;</span>
-<span class="nc" id="L57">    }</span>
+<span class="fc" id="L56">        this.dateCreated = dateCreated;</span>
+<span class="fc" id="L57">    }</span>
 
     @Override
     public String toString() {

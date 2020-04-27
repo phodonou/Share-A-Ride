@@ -3,13 +3,10 @@ package com.mycompany.app.repositories;
 import java.util.*;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import com.mycompany.app.models.*;
 import java.time.format.DateTimeFormatter;
-
 import com.mycompany.app.boundaryInterfaces.RideBoundaryInterface;
 import com.mycompany.app.boundaryInterfaces.UserBoundaryInterface;
 
@@ -199,7 +196,7 @@ public class RideRepository implements RideBoundaryInterface {
         return null;
     }
 
-    private Ride getRide(int rid) {
+    public Ride getRide(int rid) {
         for (Ride ride : this.rides) {
             if (ride.getRid() == rid)
                 return ride;

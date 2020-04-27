@@ -373,8 +373,8 @@ public class SarService {
 
     @GET
     @Timed
-    @Path(&quot;/rides/{rid}/messages&quot;)
     @Produces(MediaType.APPLICATION_JSON)
+    @Path(&quot;/rides/{rid}/messages&quot;)
     public Response message(@PathParam(&quot;rid&quot;) int rid) {
 <span class="nc" id="L379">        List&lt;Map&lt;String, Object&gt;&gt; messages = rideRepo.messages(rid);</span>
 <span class="nc bnc" id="L380" title="All 2 branches missed.">        if (messages == null) {</span>
@@ -382,5 +382,29 @@ public class SarService {
         }
 <span class="nc" id="L383">        return Response.ok(messages, MediaType.APPLICATION_JSON).build();</span>
     }
+
+    @GET
+    @Timed
+    @Path(&quot;/reports&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response reports() {
+<span class="nc" id="L391">        List&lt;Report&gt; reports = rideRepo.generateReport();</span>
+<span class="nc" id="L392">        return Response.ok(reports).build();</span>
+    }
+
+    @GET
+    @Timed
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path(&quot;/reports/{pid}&quot;)
+    public Response report(@QueryParam(&quot;start_date&quot;) String startDate, @QueryParam(&quot;end_date&quot;) String endDate,
+            @PathParam(&quot;pid&quot;) int pid) throws Exception {
+<span class="nc bnc" id="L401" title="All 2 branches missed.">        String sd = startDate == null ? &quot;&quot; : startDate;</span>
+<span class="nc bnc" id="L402" title="All 2 branches missed.">        String ed = endDate == null ? &quot;&quot; : endDate;</span>
+<span class="nc" id="L403">        Map&lt;String, Object&gt; report = rideRepo.getReport(pid, sd, ed);</span>
+<span class="nc bnc" id="L404" title="All 2 branches missed.">        if (report == null)</span>
+<span class="nc" id="L405">            return Response.status(Status.NOT_FOUND).build();</span>
+<span class="nc" id="L406">        return Response.ok(report).build();</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
