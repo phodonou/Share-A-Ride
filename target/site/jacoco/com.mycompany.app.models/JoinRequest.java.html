@@ -16,46 +16,46 @@ public class JoinRequest {
 
 <span class="fc" id="L17">    }</span>
 
-<span class="nc" id="L19">    public JoinRequest(int aid, int passengers, boolean rideConfirmed, boolean pickUpConifrmed) {</span>
-<span class="nc" id="L20">        this.aid = aid;</span>
-<span class="nc" id="L21">        this.passengers = passengers;</span>
-<span class="nc" id="L22">        this.rideConfirmed = rideConfirmed;</span>
-<span class="nc" id="L23">        this.pickUpConifrmed = pickUpConifrmed;</span>
-<span class="nc" id="L24">    }</span>
+<span class="fc" id="L19">    public JoinRequest(int aid, int passengers, boolean rideConfirmed, boolean pickUpConifrmed) {</span>
+<span class="fc" id="L20">        this.aid = aid;</span>
+<span class="fc" id="L21">        this.passengers = passengers;</span>
+<span class="fc" id="L22">        this.rideConfirmed = rideConfirmed;</span>
+<span class="fc" id="L23">        this.pickUpConifrmed = pickUpConifrmed;</span>
+<span class="fc" id="L24">    }</span>
 
     @JsonProperty(&quot;aid&quot;)
     public int getAid() {
-<span class="nc" id="L28">        return this.aid;</span>
+<span class="fc" id="L28">        return this.aid;</span>
     }
 
     public void setAid(int aid) {
-<span class="nc" id="L32">        this.aid = aid;</span>
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L32">        this.aid = aid;</span>
+<span class="fc" id="L33">    }</span>
 
     @JsonProperty(&quot;passengers&quot;)
     public int getPassengers() {
-<span class="nc" id="L37">        return this.passengers;</span>
+<span class="fc" id="L37">        return this.passengers;</span>
     }
 
     public void setPassengers(int passengers) {
-<span class="nc" id="L41">        this.passengers = passengers;</span>
-<span class="nc" id="L42">    }</span>
+<span class="fc" id="L41">        this.passengers = passengers;</span>
+<span class="fc" id="L42">    }</span>
 
     public boolean isRideConfirmed() {
-<span class="nc" id="L45">        return this.rideConfirmed;</span>
+<span class="fc" id="L45">        return this.rideConfirmed;</span>
     }
 
     @JsonProperty(&quot;ride_confirmed&quot;)
     public boolean getRideConfirmed() {
-<span class="nc" id="L50">        return this.rideConfirmed;</span>
+<span class="fc" id="L50">        return this.rideConfirmed;</span>
     }
 
     public void setRideConfirmed(boolean rideConfirmed) {
-<span class="nc" id="L54">        this.rideConfirmed = rideConfirmed;</span>
-<span class="nc" id="L55">    }</span>
+<span class="fc" id="L54">        this.rideConfirmed = rideConfirmed;</span>
+<span class="fc" id="L55">    }</span>
 
     public boolean isPickUpConifrmed() {
-<span class="nc" id="L58">        return this.pickUpConifrmed;</span>
+<span class="fc" id="L58">        return this.pickUpConifrmed;</span>
     }
 
     @JsonProperty(&quot;pickup_confirmed&quot;)
@@ -64,8 +64,8 @@ public class JoinRequest {
     }
 
     public void setPickUpConifrmed(boolean pickUpConifrmed) {
-<span class="nc" id="L67">        this.pickUpConifrmed = pickUpConifrmed;</span>
-<span class="nc" id="L68">    }</span>
+<span class="fc" id="L67">        this.pickUpConifrmed = pickUpConifrmed;</span>
+<span class="fc" id="L68">    }</span>
 
     public int setJid() {
 <span class="fc" id="L71">        int id = UniqueIdGenerator.getUniqueID();</span>
@@ -75,12 +75,6 @@ public class JoinRequest {
 
     public int getJid() {
 <span class="fc" id="L77">        return jid;</span>
-    }
-
-    @Override
-    public String toString() {
-<span class="nc" id="L82">        return &quot;{&quot; + &quot; aid='&quot; + getAid() + &quot;'&quot; + &quot;, passengers='&quot; + getPassengers() + &quot;'&quot; + &quot;, rideConfirmed='&quot;</span>
-<span class="nc" id="L83">                + isRideConfirmed() + &quot;'&quot; + &quot;, pickUpConifrmed='&quot; + isPickUpConifrmed() + &quot;'&quot; + &quot;}&quot;;</span>
     }
 
 }

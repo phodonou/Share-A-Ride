@@ -1,9 +1,7 @@
-/Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/Rider.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/Rating.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/repositories/UserRepository.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/repositories/RideRepository.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/boundaryInterfaces/RideBoundaryInterface.java
-/Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/Search.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/boundaryInterfaces/UserBoundaryInterface.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/Message.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/Report.java
@@ -17,6 +15,5 @@
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/User.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/Car.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/Ride.java
-/Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/Driver.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/models/JoinRequest.java
 /Users/princehodonou/Development/shareAride/src/main/java/com/mycompany/app/Config.java

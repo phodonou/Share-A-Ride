@@ -55,11 +55,4 @@ public class Message {
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
-
-    @Override
-    public String toString() {
-        return "{" + " mid='" + getMid() + "'" + ", message='" + getMessage() + "'" + ", aid='" + getAid() + "'"
-                + ", dateCreated='" + getDateCreated() + "'" + "}";
-    }
-
 }

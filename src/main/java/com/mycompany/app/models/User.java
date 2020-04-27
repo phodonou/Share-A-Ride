@@ -97,12 +97,4 @@ public class User {
     public void confirmAccount() {
         isActive = true;
     }
-
-    @Override
-    public String toString() {
-        return "{" + " aid='" + aid + "'" + ", firstName='" + getFirstName() + "'" + ", lastName='" + getLastName()
-                + "'" + ", cellPhone='" + getCellPhone() + "'" + ", picture='" + getPicture() + "'" + ", isActive='"
-                + isActive + "'" + ", ratings='" + getRatings() + "'" + "}";
-    }
-
 }

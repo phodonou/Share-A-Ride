@@ -8,8 +8,8 @@ public class RideRequestStatus {
     private boolean rideConfirmed;
     private boolean pickupConfirmed;
 
-<span class="nc" id="L11">    public RideRequestStatus() {</span>
-<span class="nc" id="L12">    }</span>
+<span class="fc" id="L11">    public RideRequestStatus() {</span>
+<span class="fc" id="L12">    }</span>
 
 <span class="fc" id="L14">    public RideRequestStatus(int aid, boolean rideConfirmed) {</span>
 <span class="fc" id="L15">        this.aid = aid;</span>
@@ -18,19 +18,19 @@ public class RideRequestStatus {
 
     @JsonProperty(&quot;aid&quot;)
     public int getAid() {
-<span class="nc" id="L21">        return this.aid;</span>
+<span class="fc" id="L21">        return this.aid;</span>
     }
 
     public void setAid(int aid) {
-<span class="nc" id="L25">        this.aid = aid;</span>
-<span class="nc" id="L26">    }</span>
+<span class="fc" id="L25">        this.aid = aid;</span>
+<span class="fc" id="L26">    }</span>
 
     public boolean isRideConfirmed() {
-<span class="nc" id="L29">        return this.rideConfirmed;</span>
+<span class="fc" id="L29">        return this.rideConfirmed;</span>
     }
 
     public boolean isPickupConfirmed() {
-<span class="nc" id="L33">        return this.pickupConfirmed;</span>
+<span class="fc" id="L33">        return this.pickupConfirmed;</span>
     }
 
     @JsonProperty(&quot;ride_confirmed&quot;)
@@ -39,8 +39,8 @@ public class RideRequestStatus {
     }
 
     public void setRideConfirmed(boolean rideConfirmed) {
-<span class="nc" id="L42">        this.rideConfirmed = rideConfirmed;</span>
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L42">        this.rideConfirmed = rideConfirmed;</span>
+<span class="fc" id="L43">    }</span>
 
     @JsonProperty(&quot;pickup_confirmed&quot;)
     public boolean getPickupConfirmed() {
@@ -48,19 +48,7 @@ public class RideRequestStatus {
     }
 
     public void setPickupConfirmed(boolean pickupConfirmed) {
-<span class="nc" id="L51">        this.pickupConfirmed = pickupConfirmed;</span>
-<span class="nc" id="L52">    }</span>
-
-    
-
-    @Override
-    public String toString() {
-<span class="nc" id="L58">        return &quot;{&quot; +</span>
-<span class="nc" id="L59">            &quot; aid='&quot; + getAid() + &quot;'&quot; +</span>
-<span class="nc" id="L60">            &quot;, rideConfirmed='&quot; + isRideConfirmed() + &quot;'&quot; +</span>
-<span class="nc" id="L61">            &quot;, pickupConfirmed='&quot; + isPickupConfirmed() + &quot;'&quot; +</span>
-            &quot;}&quot;;
-    }
-
+<span class="fc" id="L51">        this.pickupConfirmed = pickupConfirmed;</span>
+<span class="fc" id="L52">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

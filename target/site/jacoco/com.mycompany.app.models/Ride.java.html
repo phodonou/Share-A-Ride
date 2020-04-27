@@ -18,8 +18,8 @@ public class Ride {
     private ArrayList&lt;JoinRequest&gt; joinRequests;
     private ArrayList&lt;Message&gt; messages;
 
-<span class="nc" id="L21">    public Ride() {</span>
-<span class="nc" id="L22">    }</span>
+<span class="fc" id="L21">    public Ride() {</span>
+<span class="fc" id="L22">    }</span>
 
     public Ride(int aid, RideDateTime rideDateTime, int maxPassengers, int amountPerPassenger, String conditions,
 <span class="fc" id="L25">            Car car, LocationInfo locationInfo) {</span>
@@ -52,8 +52,8 @@ public class Ride {
     }
 
     public void setAid(int aid) {
-<span class="nc" id="L55">        this.aid = aid;</span>
-<span class="nc" id="L56">    }</span>
+<span class="fc" id="L55">        this.aid = aid;</span>
+<span class="fc" id="L56">    }</span>
 
     @JsonProperty(&quot;date_time&quot;)
     public RideDateTime getRideDateTime() {
@@ -61,21 +61,21 @@ public class Ride {
     }
 
     public void setRideDateTime(RideDateTime rideDateTime) {
-<span class="nc" id="L64">        this.rideDateTime = rideDateTime;</span>
-<span class="nc" id="L65">    }</span>
+<span class="fc" id="L64">        this.rideDateTime = rideDateTime;</span>
+<span class="fc" id="L65">    }</span>
 
     @JsonProperty(&quot;max_passengers&quot;)
     public int getMaxPassengers() {
-<span class="nc" id="L69">        return this.maxPassengers;</span>
+<span class="fc" id="L69">        return this.maxPassengers;</span>
     }
 
     public void setMaxPassengers(int maxPassengers) {
-<span class="nc" id="L73">        this.maxPassengers = maxPassengers;</span>
-<span class="nc" id="L74">    }</span>
+<span class="fc" id="L73">        this.maxPassengers = maxPassengers;</span>
+<span class="fc" id="L74">    }</span>
 
     @JsonProperty(&quot;amount_per_passenger&quot;)
     public int getAmountPerPassenger() {
-<span class="nc" id="L78">        return this.amountPerPassenger;</span>
+<span class="fc" id="L78">        return this.amountPerPassenger;</span>
     }
 
     public void setAmountPerPassenger(int amountPerPassenger) {
@@ -84,12 +84,12 @@ public class Ride {
 
     @JsonProperty(&quot;conditions&quot;)
     public String getConditions() {
-<span class="nc" id="L87">        return this.conditions;</span>
+<span class="fc" id="L87">        return this.conditions;</span>
     }
 
     public void setConditions(String conditions) {
-<span class="nc" id="L91">        this.conditions = conditions;</span>
-<span class="nc" id="L92">    }</span>
+<span class="fc" id="L91">        this.conditions = conditions;</span>
+<span class="fc" id="L92">    }</span>
 
     @JsonProperty(&quot;car_info&quot;)
     public Car getCar() {
@@ -97,8 +97,8 @@ public class Ride {
     }
 
     public void setCar(Car car) {
-<span class="nc" id="L100">        this.car = car;</span>
-<span class="nc" id="L101">    }</span>
+<span class="fc" id="L100">        this.car = car;</span>
+<span class="fc" id="L101">    }</span>
 
     @JsonProperty(&quot;location_info&quot;)
     public LocationInfo getLocationInfo() {
@@ -106,8 +106,8 @@ public class Ride {
     }
 
     public void setLocationInfo(LocationInfo locationInfo) {
-<span class="nc" id="L109">        this.locationInfo = locationInfo;</span>
-<span class="nc" id="L110">    }</span>
+<span class="fc" id="L109">        this.locationInfo = locationInfo;</span>
+<span class="fc" id="L110">    }</span>
 
     public void setJoinRequest() {
 <span class="fc" id="L113">        joinRequests = new ArrayList&lt;JoinRequest&gt;();</span>
@@ -132,15 +132,6 @@ public class Ride {
     public void addMessage(Message message) {
 <span class="fc" id="L133">        this.messages.add(message);</span>
 <span class="fc" id="L134">    }</span>
-
-    @Override
-    public String toString() {
-<span class="nc" id="L138">        return &quot;{&quot; + &quot; rid='&quot; + getRid() + &quot;'&quot; + &quot;, aid='&quot; + getAid() + &quot;'&quot; + &quot;, rideDateTime='&quot; + getRideDateTime()</span>
-<span class="nc" id="L139">                + &quot;'&quot; + &quot;, maxPassengers='&quot; + getMaxPassengers() + &quot;'&quot; + &quot;, amountPerPassenger='&quot;</span>
-<span class="nc" id="L140">                + getAmountPerPassenger() + &quot;'&quot; + &quot;, conditions='&quot; + getConditions() + &quot;'&quot; + &quot;, car='&quot; + getCar() + &quot;'&quot;</span>
-<span class="nc" id="L141">                + &quot;, locationInfo='&quot; + getLocationInfo() + &quot;'&quot; + &quot;, joinRequests='&quot; + getJoinRequests() + &quot;'&quot;</span>
-<span class="nc" id="L142">                + &quot;, messages='&quot; + getMessages() + &quot;'&quot; + &quot;}&quot;;</span>
-    }
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

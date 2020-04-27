@@ -1,3 +1,6 @@
-com/mycompany/app/repositories/RideRepositoryTest.class
 com/mycompany/app/repositories/UserRepositoryTest.class
+com/mycompany/app/repositories/RideRepositoryTest.class
+com/mycompany/app/models/RideTest.class
 com/mycompany/app/AppTest.class
+com/mycompany/app/models/JoinRequestTest.class
+com/mycompany/app/models/CarTest.class

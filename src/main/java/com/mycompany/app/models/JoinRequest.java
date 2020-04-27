@@ -77,10 +77,4 @@ public class JoinRequest {
         return jid;
     }
 
-    @Override
-    public String toString() {
-        return "{" + " aid='" + getAid() + "'" + ", passengers='" + getPassengers() + "'" + ", rideConfirmed='"
-                + isRideConfirmed() + "'" + ", pickUpConifrmed='" + isPickUpConifrmed() + "'" + "}";
-    }
-
 }

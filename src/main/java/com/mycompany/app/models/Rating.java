@@ -75,12 +75,4 @@ public class Rating {
     public void setComment(String comment) {
         this.comment = comment;
     }
-
-    @Override
-    public String toString() {
-        return "{" + " sid='" + getSid() + "'" + ", rid='" + getRid() + "'" + ", sentBy='" + getSentBy() + "'"
-                + ", ratingDate='" + getRatingDate() + "'" + ", rating='" + getRating() + "'" + ", comment='"
-                + getComment() + "'" + "}";
-    }
-
 }

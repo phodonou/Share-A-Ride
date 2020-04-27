@@ -55,10 +55,4 @@ public class LocationInfo {
         this.toZip = toZip;
     }
 
-    @Override
-    public String toString() {
-        return "{" + " fromCity='" + getFromCity() + "'" + ", fromZip='" + getFromZip() + "'" + ", toCity='"
-                + getToCity() + "'" + ", toZip='" + getToZip() + "'" + "}";
-    }
-
 }

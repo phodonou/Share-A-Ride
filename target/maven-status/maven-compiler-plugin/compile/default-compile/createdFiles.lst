@@ -1,4 +1,3 @@
-com/mycompany/app/models/Rider.class
 com/mycompany/app/repositories/RideRepository.class
 com/mycompany/app/App.class
 com/mycompany/app/Config.class
@@ -13,10 +12,8 @@ com/mycompany/app/models/LocationInfo.class
 com/mycompany/app/repositories/UserRepository.class
 com/mycompany/app/models/Report.class
 com/mycompany/app/models/User.class
-com/mycompany/app/models/Search.class
 com/mycompany/app/boundaryInterfaces/RideBoundaryInterface.class
 com/mycompany/app/models/Message.class
 com/mycompany/app/models/JoinRequest.class
 com/mycompany/app/SarService.class
 com/mycompany/app/models/Ride.class
-com/mycompany/app/models/Driver.class

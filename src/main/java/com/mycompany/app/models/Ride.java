@@ -133,13 +133,4 @@ public class Ride {
         this.messages.add(message);
     }
 
-    @Override
-    public String toString() {
-        return "{" + " rid='" + getRid() + "'" + ", aid='" + getAid() + "'" + ", rideDateTime='" + getRideDateTime()
-                + "'" + ", maxPassengers='" + getMaxPassengers() + "'" + ", amountPerPassenger='"
-                + getAmountPerPassenger() + "'" + ", conditions='" + getConditions() + "'" + ", car='" + getCar() + "'"
-                + ", locationInfo='" + getLocationInfo() + "'" + ", joinRequests='" + getJoinRequests() + "'"
-                + ", messages='" + getMessages() + "'" + "}";
-    }
-
 }

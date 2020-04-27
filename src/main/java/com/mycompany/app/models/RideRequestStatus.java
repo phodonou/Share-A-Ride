@@ -50,16 +50,4 @@ public class RideRequestStatus {
     public void setPickupConfirmed(boolean pickupConfirmed) {
         this.pickupConfirmed = pickupConfirmed;
     }
-
-    
-
-    @Override
-    public String toString() {
-        return "{" +
-            " aid='" + getAid() + "'" +
-            ", rideConfirmed='" + isRideConfirmed() + "'" +
-            ", pickupConfirmed='" + isPickupConfirmed() + "'" +
-            "}";
-    }
-
 }
