@@ -107,32 +107,32 @@ public class UserRepositoryTest {
         assert(account != null);
     }
 
-    @Test
-    public void createRating(){
-        UserRepository userRepository = new UserRepository();
-        User mockUser = new User();
-        userRepository.createAccount(mockUser);
+    // @Test
+    // public void createRating(){
+    //     UserRepository userRepository = new UserRepository();
+    //     User mockUser = new User();
+    //     userRepository.createAccount(mockUser);
 
-        Rating mockRating = new Rating();
+    //     Rating mockRating = new Rating();
 
-        int rid =  userRepository.createRating(mockRating, mockUser.getAid());
+    //     int rid =  userRepository.createRating(mockRating, mockUser.getAid());
 
-        assert(rid > 0);
-    }
+    //     assert(rid > 0);
+    // }
 
-    @Test
-    public void getRating(){
-        UserRepository userRepository = new UserRepository();
-        User mockUser = new User("", "", "", "", true);
-        userRepository.createAccount(mockUser);
+    // @Test
+    // public void getRating(){
+    //     UserRepository userRepository = new UserRepository();
+    //     User mockUser = new User("", "", "", "", true);
+    //     userRepository.createAccount(mockUser);
 
-        Rating mockRating = new Rating(1, mockUser.getAid(), 1, "");
-        userRepository.createRating(mockRating, mockUser.getAid());
+    //     Rating mockRating = new Rating(1, mockUser.getAid(), 1, "");
+    //     userRepository.createRating(mockRating, mockUser.getAid());
 
-        Map<String, Object> rating=  userRepository.getRating(mockUser.getAid());
+    //     Map<String, Object> rating=  userRepository.getRating(mockUser.getAid());
 
-        assert(rating != null);
-    }
+    //     assert(rating != null);
+    // }
 
     @Test
     public void sendMessageNotification(){
@@ -144,18 +144,18 @@ public class UserRepositoryTest {
         assert(created);
     }
 
-    @Test
-    public void avg(){
-        UserRepository userRepository = new UserRepository();
+    // @Test
+    // public void avg(){
+    //     UserRepository userRepository = new UserRepository();
 
-        User mockUser = new User();
-        userRepository.createAccount(mockUser);
+    //     User mockUser = new User();
+    //     userRepository.createAccount(mockUser);
 
-        Rating mockRating = new Rating();
+    //     Rating mockRating = new Rating();
 
-        userRepository.createRating(mockRating, mockUser.getAid());
+    //     userRepository.createRating(mockRating, mockUser.getAid());
 
-        userRepository.calculateAvgRating(mockUser.getRatings());
-    }
+    //     userRepository.calculateAvgRating(mockUser.getRatings());
+    // }
 
 }

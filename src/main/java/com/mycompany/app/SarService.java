@@ -141,6 +141,10 @@ public class SarService {
                     .build();
         }
         int sid = userRepo.createRating(rating, aid);
+        if (sid == -2) {
+            return Response.status(Status.BAD_REQUEST)
+                    .entity(validationErrorResponse(("invalid"), "/accounts/" + aid + "/ratings")).build();
+        }
         JSONObject jsonObject = (new JSONObject().put("sid", sid));
         return Response.created(UriBuilder.fromPath("accounts/" + aid + "/ratings/" + sid).build())
                 .entity(jsonObject.toMap()).build();
@@ -226,11 +230,13 @@ public class SarService {
                     .entity(validationErrorResponse("ammount per passenger must be greater than 0", "/rides")).build();
         }
         int rid = rideRepo.postRide(ride, userRepo);
-        if (rid < 0)
+        if (rid == -1)
             return Response.status(Status.BAD_REQUEST)
                     .entity(validationErrorResponse(
                             "This account (" + ride.getAid() + ") is not active, may not create a ride.", "/rides"))
                     .build();
+        if (rid == -2)
+            return Response.status(Status.NOT_FOUND).build();
         JSONObject jsonObject = (new JSONObject().put("rid", rid));
         return Response.created(UriBuilder.fromPath("rides/" + rid).build()).entity(jsonObject.toMap()).build();
     }
@@ -332,7 +338,15 @@ public class SarService {
             return Response.status(Status.BAD_REQUEST)
                     .entity(validationErrorResponse("passengers invalid", "/rides/" + rid + "/join_requests")).build();
         }
-        int jid = rideRepo.joinRide(rid, joinRequest);
+        int jid = rideRepo.joinRide(rid, joinRequest, userRepo);
+        if (jid == -1) {
+            return Response.status(Status.BAD_REQUEST)
+                    .entity(validationErrorResponse(
+                            "This account (" + joinRequest.getAid()
+                                    + ") is not active, may not create a join ride request.",
+                            "/rides/" + rid + "/join_requests"))
+                    .build();
+        }
         JSONObject jsonObject = (new JSONObject().put("jid", jid));
         return Response.created(UriBuilder.fromPath("rides/" + rid + "/join_requests/" + jid).build())
                 .entity(jsonObject.toMap()).build();
@@ -344,10 +358,8 @@ public class SarService {
     @Path("/rides/{rid}/join_requests/{jid}")
     public Response rideRequestStatus(@PathParam("rid") int rid, @PathParam("jid") int jid,
             RideRequestStatus rideRequestStatus) {
-        boolean success = rideRepo.rideRequestStatus(rid, jid, rideRequestStatus);
-        boolean success1 = rideRepo.ridePickupStatus(rid, jid, rideRequestStatus);
-        if (!success && !success1)
-            return Response.status(Status.NOT_FOUND).build();
+        rideRepo.rideRequestStatus(rid, jid, rideRequestStatus);
+        rideRepo.ridePickupStatus(rid, jid, rideRequestStatus);
         return Response.ok().build();
     }
 

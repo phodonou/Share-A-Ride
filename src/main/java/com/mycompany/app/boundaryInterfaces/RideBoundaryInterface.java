@@ -18,7 +18,9 @@ public interface RideBoundaryInterface {
 
     Map<String, Object> ride(int rid, UserBoundaryInterface userRepository);
 
-    int joinRide(int rid, JoinRequest joinRequest);
+    int joinRide(int rid, JoinRequest joinRequest, UserBoundaryInterface userRepository);
+
+    Ride getRide(int rid);
 
     boolean rideRequestStatus(int rid, int jid, RideRequestStatus rideRequestStatus);
 

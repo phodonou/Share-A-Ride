@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.mycompany.app.models.*;
-import com.mycompany.app.boundaryInterfaces.UserBoundaryInterface;
+import com.mycompany.app.boundaryInterfaces.*;
 
 //Manages everything user related
 //Will have a list of all [Users]
@@ -49,12 +49,15 @@ public class UserRepository implements UserBoundaryInterface {
         users.remove(currentUser);
         user.replaceAid(currentUser.getAid());
         users.add(user);
+        if (user.getRatings() == null) {
+            user.setRating();
+        }
         return true;
     }
 
     @Override
     public List<Map<String, Object>> accounts(String key) {
-        if (key == null) {
+        if (key == null || key.isEmpty()) {
             List<Map<String, Object>> usersJson = new ArrayList<Map<String, Object>>();
             for (int i = 0; i < users.size(); i++) {
                 usersJson.add(jsonUser(users.get(i)).toMap());
@@ -83,7 +86,7 @@ public class UserRepository implements UserBoundaryInterface {
     public int createRating(Rating rating, int aid) {
         User user = getUser(aid);
         if (user == null)
-            return -1;
+            ;
         int sid = rating.setSid();
         LocalDateTime dateTime = LocalDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
@@ -132,8 +135,8 @@ public class UserRepository implements UserBoundaryInterface {
             String userFirstName = user.getFirstName().trim().toLowerCase();
             String userLastName = user.getLastName().trim().toLowerCase();
             String userCellPhone = user.getCellPhone().trim().toLowerCase();
-            boolean queryCorrect = userFirstName.equals(keyword) || userLastName.equals(keyword)
-                    || userCellPhone.equals(keyword);
+            boolean queryCorrect = userFirstName.contains(keyword) || userLastName.contains(keyword)
+                    || userCellPhone.contains(keyword);
             if (queryCorrect) {
                 users.add(user);
             }

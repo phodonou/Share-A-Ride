@@ -17,12 +17,14 @@ public class RideRepository implements RideBoundaryInterface {
     List<Ride> rides = new ArrayList<Ride>();
     List<Report> reports = new ArrayList<Report>();
 
-    final String RIDE_POSTED_REPORT = "Rides posted between two date";
+    final String RIDE_POSTED_REPORT = "Rides posted between two dates";
     final String RIDE_TAKEN_REPORT = "Rides taken between two dates";
 
     @Override
     public int postRide(Ride ride, UserBoundaryInterface userRepository) {
         User user = userRepository.getUser(ride.getAid());
+        if (user == null)
+            return -2;
         if (!user.getIsActive())
             return -1;
         ride.getAid();
@@ -92,7 +94,11 @@ public class RideRepository implements RideBoundaryInterface {
     }
 
     @Override
-    public int joinRide(int rid, JoinRequest joinRequest) {
+    public int joinRide(int rid, JoinRequest joinRequest, UserBoundaryInterface userRepository) {
+        User user = userRepository.getUser(joinRequest.getAid());
+        if (user == null || !user.getIsActive()) {
+            return -1;
+        }
         int id = joinRequest.setJid();
         Ride ride = getRide(rid);
         ride.addJoinRequest(joinRequest);
