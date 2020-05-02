@@ -1,7 +1,7 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-shareAride,com.mycompany.app.repositories,UserRepository,13,477,9,37,2,115,7,34,0,18
+shareAride,com.mycompany.app.repositories,UserRepository,11,479,8,38,1,116,6,35,0,18
 shareAride,com.mycompany.app.repositories,RideRepository,18,936,20,78,5,210,18,56,0,25
-shareAride,com.mycompany.app,SarService,1122,0,106,0,205,0,75,0,22,0
+shareAride,com.mycompany.app,SarService,335,353,26,26,58,68,24,24,10,12
 shareAride,com.mycompany.app,Config,10,0,0,0,4,0,3,0,3,0
 shareAride,com.mycompany.app,AppHealthCheck,17,0,0,0,4,0,2,0,2,0
 shareAride,com.mycompany.app,App,34,0,0,0,9,0,3,0,3,0

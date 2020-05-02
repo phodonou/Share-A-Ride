@@ -98,8 +98,8 @@ import com.mycompany.app.boundaryInterfaces.*;
     @Override
     public Map&lt;String, Object&gt; getRating(int aid) {
 <span class="fc" id="L100">        User user = getUser(aid);</span>
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (user == null)</span>
-<span class="nc" id="L102">            return null;</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (user == null)</span>
+<span class="fc" id="L102">            return null;</span>
 <span class="fc" id="L103">        JSONObject jsonUserRides = jsonUserRides(user);</span>
 <span class="fc" id="L104">        return jsonUserRides.toMap();</span>
     }
