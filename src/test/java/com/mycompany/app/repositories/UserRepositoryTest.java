@@ -70,92 +70,146 @@ public class UserRepositoryTest {
         UserRepository userRepository = new UserRepository();
         User mockUser = new User();
 
-        boolean created = userRepository.updateAccount(mockUser, mockUser.getAid());
+        boolean created = userRepository.updateAccount(new User(), mockUser.getAid());
         assert (!created);
     }
+    
 
     @Test
-    public void accounts(){
+    public void accounts() {
         UserRepository userRepository = new UserRepository();
         User mockUser = new User();
         userRepository.createAccount(mockUser);
 
         List<Map<String, Object>> accounts = userRepository.accounts(null);
 
-        assert(!accounts.isEmpty());
+        assert (!accounts.isEmpty());
     }
 
     @Test
-    public void accounts1(){
+    public void accountsEmptyKey() {
+        UserRepository userRepository = new UserRepository();
+        User mockUser = new User();
+        userRepository.createAccount(mockUser);
+
+        List<Map<String, Object>> accounts = userRepository.accounts("");
+
+        assert (!accounts.isEmpty());
+    }
+
+    @Test
+    public void accounts1() {
         UserRepository userRepository = new UserRepository();
         User mockUser = new User("f", "", "", "", true);
         userRepository.createAccount(mockUser);
 
         List<Map<String, Object>> accounts = userRepository.accounts("f");
 
-        assert(!accounts.isEmpty());
+        assert (!accounts.isEmpty());
     }
 
     @Test
-    public void account(){
+    public void account() {
         UserRepository userRepository = new UserRepository();
         User mockUser = new User();
         userRepository.createAccount(mockUser);
 
         Map<String, Object> account = userRepository.account(mockUser.getAid());
 
-        assert(account != null);
+        assert (account != null);
     }
-
-    // @Test
-    // public void createRating(){
-    //     UserRepository userRepository = new UserRepository();
-    //     User mockUser = new User();
-    //     userRepository.createAccount(mockUser);
-
-    //     Rating mockRating = new Rating();
-
-    //     int rid =  userRepository.createRating(mockRating, mockUser.getAid());
-
-    //     assert(rid > 0);
-    // }
-
-    // @Test
-    // public void getRating(){
-    //     UserRepository userRepository = new UserRepository();
-    //     User mockUser = new User("", "", "", "", true);
-    //     userRepository.createAccount(mockUser);
-
-    //     Rating mockRating = new Rating(1, mockUser.getAid(), 1, "");
-    //     userRepository.createRating(mockRating, mockUser.getAid());
-
-    //     Map<String, Object> rating=  userRepository.getRating(mockUser.getAid());
-
-    //     assert(rating != null);
-    // }
 
     @Test
-    public void sendMessageNotification(){
+    public void nullAccount() {
         UserRepository userRepository = new UserRepository();
         User mockUser = new User();
-        
-        boolean created = userRepository.sendMessageNotification(mockUser);
+        userRepository.createAccount(mockUser);
 
-        assert(created);
+        Map<String, Object> account = userRepository.account(55);
+
+        assert (account == null);
     }
 
-    // @Test
-    // public void avg(){
-    //     UserRepository userRepository = new UserRepository();
+    @Test
+    public void createRating() {
+        UserRepository userRepository = new UserRepository();
+        User mockUser = new User();
+        userRepository.createAccount(mockUser);
 
-    //     User mockUser = new User();
-    //     userRepository.createAccount(mockUser);
+        Rating mockRating = new Rating();
 
-    //     Rating mockRating = new Rating();
+        int rid = userRepository.createRating(mockRating, mockUser.getAid());
 
-    //     userRepository.createRating(mockRating, mockUser.getAid());
+        assert (rid > 0);
+    }
 
-    //     userRepository.calculateAvgRating(mockUser.getRatings());
-    // }
+    @Test
+    public void getRating() {
+        UserRepository userRepository = new UserRepository();
+        User mockUser = new User("", "", "", "", true);
+        userRepository.createAccount(mockUser);
+
+        Rating mockRating = new Rating(1, mockUser.getAid(), 1, "");
+        userRepository.createRating(mockRating, mockUser.getAid());
+
+        Map<String, Object> rating = userRepository.getRating(mockUser.getAid());
+
+        assert (rating != null);
+    }
+    
+    @Test
+    public void sendMessageNotification() {
+        UserRepository userRepository = new UserRepository();
+        User mockUser = new User();
+
+        boolean created = userRepository.sendMessageNotification(mockUser);
+
+        assert (created);
+    }
+
+    @Test
+    public void avg() {
+        UserRepository userRepository = new UserRepository();
+
+        User mockUser = new User();
+        userRepository.createAccount(mockUser);
+
+        Rating mockRating = new Rating();
+
+        userRepository.createRating(mockRating, mockUser.getAid());
+
+        userRepository.calculateAvgRating(mockUser.getRatings());
+    }
+
+
+    @Test
+    public void avg1() {
+        UserRepository userRepository = new UserRepository();
+
+        User mockUser = new User();
+        userRepository.createAccount(mockUser);
+
+        userRepository.calculateAvgRating(mockUser.getRatings());
+    }
+
+    @Test
+    public void phoneNumberExistsSuccessful() {
+        UserRepository userRepository = new UserRepository();
+        User mockUser = new User("", "", "313-222-2222", "", true);
+        userRepository.createAccount(mockUser);
+
+        boolean exists = userRepository.phoneNumberExists(mockUser.getCellPhone());
+        assert(exists);
+    }
+
+    @Test
+    public void phoneNumberExistsUnsuccessful() {
+        UserRepository userRepository = new UserRepository();
+        User mockUser = new User("", "", "313-222-2222", "", true);
+        userRepository.createAccount(mockUser);
+
+        boolean exists = userRepository.phoneNumberExists("72727");
+        assert(!exists);
+    }
 
 }

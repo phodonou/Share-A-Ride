@@ -17,304 +17,310 @@ import com.mycompany.app.boundaryInterfaces.UserBoundaryInterface;
 <span class="fc" id="L17">    List&lt;Ride&gt; rides = new ArrayList&lt;Ride&gt;();</span>
 <span class="fc" id="L18">    List&lt;Report&gt; reports = new ArrayList&lt;Report&gt;();</span>
 
-<span class="fc" id="L20">    final String RIDE_POSTED_REPORT = &quot;Rides posted between two date&quot;;</span>
+<span class="fc" id="L20">    final String RIDE_POSTED_REPORT = &quot;Rides posted between two dates&quot;;</span>
 <span class="fc" id="L21">    final String RIDE_TAKEN_REPORT = &quot;Rides taken between two dates&quot;;</span>
 
     @Override
     public int postRide(Ride ride, UserBoundaryInterface userRepository) {
 <span class="fc" id="L25">        User user = userRepository.getUser(ride.getAid());</span>
-<span class="pc bpc" id="L26" title="1 of 2 branches missed.">        if (!user.getIsActive())</span>
-<span class="nc" id="L27">            return -1;</span>
-<span class="fc" id="L28">        ride.getAid();</span>
-<span class="fc" id="L29">        ride.setJoinRequest();</span>
-<span class="fc" id="L30">        ride.setMessages();</span>
-<span class="fc" id="L31">        int rid = ride.setRid();</span>
-<span class="fc" id="L32">        rides.add(ride);</span>
-<span class="fc" id="L33">        return rid;</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (user == null)</span>
+<span class="fc" id="L27">            return -2;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (!user.getIsActive())</span>
+<span class="fc" id="L29">            return -1;</span>
+<span class="fc" id="L30">        ride.getAid();</span>
+<span class="fc" id="L31">        ride.setJoinRequest();</span>
+<span class="fc" id="L32">        ride.setMessages();</span>
+<span class="fc" id="L33">        int rid = ride.setRid();</span>
+<span class="fc" id="L34">        rides.add(ride);</span>
+<span class="fc" id="L35">        return rid;</span>
     }
 
     @Override
     public boolean updateRide(Ride ride, int rid) {
-<span class="fc" id="L38">        Ride currentRide = getRide(rid);</span>
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (currentRide == null)</span>
-<span class="nc" id="L40">            return false;</span>
-<span class="fc" id="L41">        rides.remove(currentRide);</span>
-<span class="fc" id="L42">        currentRide.replaceRid(currentRide.getRid());</span>
-<span class="fc" id="L43">        rides.add(ride);</span>
-<span class="fc" id="L44">        return true;</span>
+<span class="fc" id="L40">        Ride currentRide = getRide(rid);</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (currentRide == null)</span>
+<span class="fc" id="L42">            return false;</span>
+<span class="fc" id="L43">        rides.remove(currentRide);</span>
+<span class="fc" id="L44">        currentRide.replaceRid(currentRide.getRid());</span>
+<span class="fc" id="L45">        rides.add(ride);</span>
+<span class="fc" id="L46">        return true;</span>
     }
 
     @Override
     public boolean deleteRide(int rid) {
-<span class="fc" id="L49">        Ride ride = getRide(rid);</span>
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if (ride == null)</span>
-<span class="nc" id="L51">            return false;</span>
-<span class="fc" id="L52">        rides.remove(ride);</span>
-<span class="fc" id="L53">        return true;</span>
+<span class="fc" id="L51">        Ride ride = getRide(rid);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (ride == null)</span>
+<span class="fc" id="L53">            return false;</span>
+<span class="fc" id="L54">        rides.remove(ride);</span>
+<span class="fc" id="L55">        return true;</span>
     }
 
     @Override
     public List&lt;Map&lt;String, Object&gt;&gt; rides(String from, String to, String date) {
-<span class="pc bpc" id="L58" title="2 of 6 branches missed.">        if (from != null || to != null || date != null) {</span>
-<span class="fc" id="L59">            List&lt;Map&lt;String, Object&gt;&gt; jsonRides = new ArrayList&lt;Map&lt;String, Object&gt;&gt;();</span>
-<span class="fc" id="L60">            List&lt;Ride&gt; queriedRides = getRides(from, to, date);</span>
-<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            for (Ride ride : queriedRides) {</span>
-<span class="nc" id="L62">                jsonRides.add(jsonRide(ride).toMap());</span>
-<span class="nc" id="L63">            }</span>
-<span class="fc" id="L64">            return jsonRides;</span>
+<span class="pc bpc" id="L60" title="2 of 6 branches missed.">        if (from != null || to != null || date != null) {</span>
+<span class="fc" id="L61">            List&lt;Map&lt;String, Object&gt;&gt; jsonRides = new ArrayList&lt;Map&lt;String, Object&gt;&gt;();</span>
+<span class="fc" id="L62">            List&lt;Ride&gt; queriedRides = getRides(from, to, date);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            for (Ride ride : queriedRides) {</span>
+<span class="fc" id="L64">                jsonRides.add(jsonRide(ride).toMap());</span>
+<span class="fc" id="L65">            }</span>
+<span class="fc" id="L66">            return jsonRides;</span>
         } else {
-<span class="fc" id="L66">            List&lt;Map&lt;String, Object&gt;&gt; jsonRides = new ArrayList&lt;Map&lt;String, Object&gt;&gt;();</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">            for (Ride ride : rides) {</span>
-<span class="fc" id="L68">                jsonRides.add(jsonRide(ride).toMap());</span>
-<span class="fc" id="L69">            }</span>
-<span class="fc" id="L70">            return jsonRides;</span>
+<span class="fc" id="L68">            List&lt;Map&lt;String, Object&gt;&gt; jsonRides = new ArrayList&lt;Map&lt;String, Object&gt;&gt;();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            for (Ride ride : rides) {</span>
+<span class="fc" id="L70">                jsonRides.add(jsonRide(ride).toMap());</span>
+<span class="fc" id="L71">            }</span>
+<span class="fc" id="L72">            return jsonRides;</span>
         }
     }
 
     @Override
     public List&lt;Map&lt;String, Object&gt;&gt; messages(int rid) {
-<span class="fc" id="L76">        Ride ride = getRide(rid);</span>
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (ride == null)</span>
-<span class="nc" id="L78">            return null;</span>
-<span class="fc" id="L79">        List&lt;Map&lt;String, Object&gt;&gt; jsonMessages = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        for (Message message : ride.getMessages()) {</span>
-<span class="nc" id="L81">            jsonMessages.add(jsonMessage(message).toMap());</span>
-<span class="nc" id="L82">        }</span>
-<span class="fc" id="L83">        return jsonMessages;</span>
+<span class="fc" id="L78">        Ride ride = getRide(rid);</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (ride == null)</span>
+<span class="fc" id="L80">            return null;</span>
+<span class="fc" id="L81">        List&lt;Map&lt;String, Object&gt;&gt; jsonMessages = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        for (Message message : ride.getMessages()) {</span>
+<span class="fc" id="L83">            jsonMessages.add(jsonMessage(message).toMap());</span>
+<span class="fc" id="L84">        }</span>
+<span class="fc" id="L85">        return jsonMessages;</span>
     }
 
     @Override
     public Map&lt;String, Object&gt; ride(int rid, UserBoundaryInterface userRepository) {
-<span class="fc" id="L88">        Ride ride = getRide(rid);</span>
-<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (ride == null)</span>
-<span class="nc" id="L90">            return null;</span>
-<span class="fc" id="L91">        return jsonRideDetailed(ride, userRepository).toMap();</span>
+<span class="fc" id="L90">        Ride ride = getRide(rid);</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (ride == null)</span>
+<span class="fc" id="L92">            return null;</span>
+<span class="fc" id="L93">        return jsonRideDetailed(ride, userRepository).toMap();</span>
     }
 
     @Override
-    public int joinRide(int rid, JoinRequest joinRequest) {
-<span class="fc" id="L96">        int id = joinRequest.setJid();</span>
-<span class="fc" id="L97">        Ride ride = getRide(rid);</span>
-<span class="fc" id="L98">        ride.addJoinRequest(joinRequest);</span>
-<span class="fc" id="L99">        return id;</span>
+    public int joinRide(int rid, JoinRequest joinRequest, UserBoundaryInterface userRepository) {
+<span class="fc" id="L98">        User user = userRepository.getUser(joinRequest.getAid());</span>
+<span class="fc bfc" id="L99" title="All 4 branches covered.">        if (user == null || !user.getIsActive()) {</span>
+<span class="fc" id="L100">            return -1;</span>
+        }
+<span class="fc" id="L102">        int id = joinRequest.setJid();</span>
+<span class="fc" id="L103">        Ride ride = getRide(rid);</span>
+<span class="fc" id="L104">        ride.addJoinRequest(joinRequest);</span>
+<span class="fc" id="L105">        return id;</span>
     }
 
     @Override
     public boolean rideRequestStatus(int rid, int jid, RideRequestStatus rideRequestStatus) {
-<span class="fc" id="L104">        JoinRequest joinRequest = getJoinRequest(rid, jid);</span>
-<span class="pc bpc" id="L105" title="3 of 4 branches missed.">        if (joinRequest == null || rideRequestStatus.getAid() != joinRequest.getAid())</span>
-<span class="fc" id="L106">            return false;</span>
-<span class="nc" id="L107">        joinRequest.setRideConfirmed(rideRequestStatus.getRideConfirmed());</span>
-<span class="nc" id="L108">        return true;</span>
+<span class="fc" id="L110">        JoinRequest joinRequest = getJoinRequest(rid, jid);</span>
+<span class="pc bpc" id="L111" title="1 of 4 branches missed.">        if (joinRequest == null || rideRequestStatus.getAid() != joinRequest.getAid())</span>
+<span class="fc" id="L112">            return false;</span>
+<span class="fc" id="L113">        joinRequest.setRideConfirmed(rideRequestStatus.getRideConfirmed());</span>
+<span class="fc" id="L114">        return true;</span>
     }
 
     @Override
     public boolean ridePickupStatus(int rid, int jid, RideRequestStatus rideRequestStatus) {
-<span class="fc" id="L113">        JoinRequest joinRequest = getJoinRequest(rid, jid);</span>
-<span class="pc bpc" id="L114" title="3 of 4 branches missed.">        if (joinRequest == null || rideRequestStatus.getAid() != joinRequest.getAid())</span>
-<span class="fc" id="L115">            return false;</span>
-<span class="nc" id="L116">        joinRequest.setPickUpConifrmed(rideRequestStatus.getPickupConfirmed());</span>
-<span class="nc" id="L117">        return true;</span>
+<span class="fc" id="L119">        JoinRequest joinRequest = getJoinRequest(rid, jid);</span>
+<span class="pc bpc" id="L120" title="1 of 4 branches missed.">        if (joinRequest == null || rideRequestStatus.getAid() != joinRequest.getAid())</span>
+<span class="fc" id="L121">            return false;</span>
+<span class="fc" id="L122">        joinRequest.setPickUpConifrmed(rideRequestStatus.getPickupConfirmed());</span>
+<span class="fc" id="L123">        return true;</span>
     }
 
     @Override
     public int addMessage(int rid, Message message) {
-<span class="fc" id="L122">        LocalDateTime dateTime = LocalDateTime.now();</span>
-<span class="fc" id="L123">        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;dd-MMM-yyyy, HH:mm:ss&quot;);</span>
-<span class="fc" id="L124">        message.setDateCreated(dtf.format(dateTime));</span>
-<span class="fc" id="L125">        Ride ride = getRide(rid);</span>
-<span class="fc" id="L126">        int id = message.setMid();</span>
-<span class="fc" id="L127">        ride.addMessage(message);</span>
-<span class="fc" id="L128">        return id;</span>
+<span class="fc" id="L128">        LocalDateTime dateTime = LocalDateTime.now();</span>
+<span class="fc" id="L129">        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;dd-MMM-yyyy, HH:mm:ss&quot;);</span>
+<span class="fc" id="L130">        message.setDateCreated(dtf.format(dateTime));</span>
+<span class="fc" id="L131">        Ride ride = getRide(rid);</span>
+<span class="fc" id="L132">        int id = message.setMid();</span>
+<span class="fc" id="L133">        ride.addMessage(message);</span>
+<span class="fc" id="L134">        return id;</span>
     }
 
     @Override
     public List&lt;Report&gt; generateReport() {
-<span class="fc" id="L133">        Report reportPosted = new Report();</span>
-<span class="fc" id="L134">        reportPosted.setPid();</span>
-<span class="fc" id="L135">        reportPosted.setName(RIDE_POSTED_REPORT);</span>
-<span class="fc" id="L136">        reports.add(reportPosted);</span>
-<span class="fc" id="L137">        Report reportTaken = new Report();</span>
-<span class="fc" id="L138">        reportTaken.setPid();</span>
-<span class="fc" id="L139">        reportTaken.setName(RIDE_TAKEN_REPORT);</span>
-<span class="fc" id="L140">        reports.add(reportTaken);</span>
-<span class="fc" id="L141">        return reports;</span>
+<span class="fc" id="L139">        Report reportPosted = new Report();</span>
+<span class="fc" id="L140">        reportPosted.setPid();</span>
+<span class="fc" id="L141">        reportPosted.setName(RIDE_POSTED_REPORT);</span>
+<span class="fc" id="L142">        reports.add(reportPosted);</span>
+<span class="fc" id="L143">        Report reportTaken = new Report();</span>
+<span class="fc" id="L144">        reportTaken.setPid();</span>
+<span class="fc" id="L145">        reportTaken.setName(RIDE_TAKEN_REPORT);</span>
+<span class="fc" id="L146">        reports.add(reportTaken);</span>
+<span class="fc" id="L147">        return reports;</span>
     }
 
     @Override
     public Map&lt;String, Object&gt; getReport(int pid, String startDate, String endDate) throws Exception {
-<span class="fc" id="L146">        SimpleDateFormat df = new SimpleDateFormat(&quot;dd-MMM-yyy&quot;);</span>
-<span class="fc" id="L147">        Report report = report(pid);</span>
-<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        if (report == null)</span>
-<span class="nc" id="L149">            return null;</span>
-<span class="fc" id="L150">        boolean startDateEmpty = startDate.isEmpty();</span>
-<span class="fc" id="L151">        boolean endDateEmpty = endDate.isEmpty();</span>
-<span class="fc bfc" id="L152" title="All 4 branches covered.">        if (startDateEmpty &amp;&amp; endDateEmpty) {</span>
-<span class="fc" id="L153">            List&lt;Ride&gt; correctRides = new ArrayList&lt;Ride&gt;();</span>
-<span class="fc bfc" id="L154" title="All 2 branches covered.">            for (Ride ride : rides) {</span>
-<span class="fc" id="L155">                correctRides.add(ride);</span>
-<span class="fc" id="L156">            }</span>
-<span class="fc" id="L157">            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();</span>
-<span class="pc bpc" id="L158" title="1 of 4 branches missed.">        } else if (!startDateEmpty &amp;&amp; endDateEmpty) {</span>
-<span class="fc" id="L159">            Date sd = df.parse(startDate);</span>
-<span class="fc" id="L160">            List&lt;Ride&gt; correctRides = new ArrayList&lt;Ride&gt;();</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">            for (Ride ride : rides) {</span>
-<span class="fc" id="L162">                Date rideDate = df.parse(ride.getRideDateTime().getDate());</span>
-<span class="pc bpc" id="L163" title="1 of 2 branches missed.">                if (rideDate.compareTo(sd) &gt;= 0) {</span>
-<span class="fc" id="L164">                    correctRides.add(ride);</span>
+<span class="fc" id="L152">        SimpleDateFormat df = new SimpleDateFormat(&quot;dd-MMM-yyy&quot;);</span>
+<span class="fc" id="L153">        Report report = report(pid);</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        if (report == null)</span>
+<span class="nc" id="L155">            return null;</span>
+<span class="fc" id="L156">        boolean startDateEmpty = startDate.isEmpty();</span>
+<span class="fc" id="L157">        boolean endDateEmpty = endDate.isEmpty();</span>
+<span class="fc bfc" id="L158" title="All 4 branches covered.">        if (startDateEmpty &amp;&amp; endDateEmpty) {</span>
+<span class="fc" id="L159">            List&lt;Ride&gt; correctRides = new ArrayList&lt;Ride&gt;();</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">            for (Ride ride : rides) {</span>
+<span class="fc" id="L161">                correctRides.add(ride);</span>
+<span class="fc" id="L162">            }</span>
+<span class="fc" id="L163">            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();</span>
+<span class="fc bfc" id="L164" title="All 4 branches covered.">        } else if (!startDateEmpty &amp;&amp; endDateEmpty) {</span>
+<span class="fc" id="L165">            Date sd = df.parse(startDate);</span>
+<span class="fc" id="L166">            List&lt;Ride&gt; correctRides = new ArrayList&lt;Ride&gt;();</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            for (Ride ride : rides) {</span>
+<span class="fc" id="L168">                Date rideDate = df.parse(ride.getRideDateTime().getDate());</span>
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">                if (rideDate.compareTo(sd) &gt;= 0) {</span>
+<span class="fc" id="L170">                    correctRides.add(ride);</span>
                 }
-<span class="fc" id="L166">            }</span>
-<span class="fc" id="L167">            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();</span>
-<span class="pc bpc" id="L168" title="2 of 4 branches missed.">        } else if (startDateEmpty &amp;&amp; !endDateEmpty) {</span>
-<span class="fc" id="L169">            Date sd = df.parse(endDate);</span>
-<span class="fc" id="L170">            List&lt;Ride&gt; correctRides = new ArrayList&lt;Ride&gt;();</span>
-<span class="fc bfc" id="L171" title="All 2 branches covered.">            for (Ride ride : rides) {</span>
-<span class="fc" id="L172">                Date rideDate = df.parse(ride.getRideDateTime().getDate());</span>
-<span class="pc bpc" id="L173" title="1 of 2 branches missed.">                if (rideDate.compareTo(sd) &lt;= 0) {</span>
-<span class="fc" id="L174">                    correctRides.add(ride);</span>
+<span class="fc" id="L172">            }</span>
+<span class="fc" id="L173">            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();</span>
+<span class="pc bpc" id="L174" title="1 of 4 branches missed.">        } else if (startDateEmpty &amp;&amp; !endDateEmpty) {</span>
+<span class="fc" id="L175">            Date sd = df.parse(endDate);</span>
+<span class="fc" id="L176">            List&lt;Ride&gt; correctRides = new ArrayList&lt;Ride&gt;();</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            for (Ride ride : rides) {</span>
+<span class="fc" id="L178">                Date rideDate = df.parse(ride.getRideDateTime().getDate());</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">                if (rideDate.compareTo(sd) &lt;= 0) {</span>
+<span class="fc" id="L180">                    correctRides.add(ride);</span>
                 }
-<span class="fc" id="L176">            }</span>
-<span class="fc" id="L177">            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();</span>
+<span class="fc" id="L182">            }</span>
+<span class="fc" id="L183">            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();</span>
         } else {
-<span class="nc" id="L179">            Date sd = df.parse(endDate);</span>
-<span class="nc" id="L180">            List&lt;Ride&gt; correctRides = new ArrayList&lt;Ride&gt;();</span>
-<span class="nc bnc" id="L181" title="All 2 branches missed.">            for (Ride ride : rides) {</span>
-<span class="nc" id="L182">                Date rideDate = df.parse(ride.getRideDateTime().getDate());</span>
-<span class="nc bnc" id="L183" title="All 4 branches missed.">                if (rideDate.compareTo(sd) &gt;= 0 &amp;&amp; rideDate.compareTo(sd) &lt;= 0) {</span>
-<span class="nc" id="L184">                    correctRides.add(ride);</span>
+<span class="fc" id="L185">            Date sd = df.parse(endDate);</span>
+<span class="fc" id="L186">            List&lt;Ride&gt; correctRides = new ArrayList&lt;Ride&gt;();</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">            for (Ride ride : rides) {</span>
+<span class="fc" id="L188">                Date rideDate = df.parse(ride.getRideDateTime().getDate());</span>
+<span class="pc bpc" id="L189" title="2 of 4 branches missed.">                if (rideDate.compareTo(sd) &gt;= 0 &amp;&amp; rideDate.compareTo(sd) &lt;= 0) {</span>
+<span class="fc" id="L190">                    correctRides.add(ride);</span>
                 }
-<span class="nc" id="L186">            }</span>
-<span class="nc" id="L187">            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();</span>
+<span class="fc" id="L192">            }</span>
+<span class="fc" id="L193">            return jsonReport(report(pid), startDate, endDate, correctRides).toMap();</span>
         }
     }
 
     private Report report(int pid) {
-<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        for (Report report : reports) {</span>
-<span class="pc bpc" id="L193" title="1 of 2 branches missed.">            if (report.getPid() == pid)</span>
-<span class="fc" id="L194">                return report;</span>
-<span class="nc" id="L195">        }</span>
-<span class="nc" id="L196">        return null;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        for (Report report : reports) {</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">            if (report.getPid() == pid)</span>
+<span class="fc" id="L200">                return report;</span>
+<span class="fc" id="L201">        }</span>
+<span class="nc" id="L202">        return null;</span>
     }
 
     public Ride getRide(int rid) {
-<span class="pc bpc" id="L200" title="1 of 2 branches missed.">        for (Ride ride : this.rides) {</span>
-<span class="pc bpc" id="L201" title="1 of 2 branches missed.">            if (ride.getRid() == rid)</span>
-<span class="fc" id="L202">                return ride;</span>
-<span class="nc" id="L203">        }</span>
-<span class="nc" id="L204">        return null;</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">        for (Ride ride : this.rides) {</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">            if (ride.getRid() == rid)</span>
+<span class="fc" id="L208">                return ride;</span>
+<span class="fc" id="L209">        }</span>
+<span class="fc" id="L210">        return null;</span>
     }
 
     private JoinRequest getJoinRequest(int rid, int jid) {
-<span class="fc" id="L208">        Ride ride = getRide(rid);</span>
-<span class="pc bpc" id="L209" title="1 of 2 branches missed.">        if (ride == null)</span>
-<span class="nc" id="L210">            return null;</span>
-<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        for (JoinRequest joinRequest : ride.getJoinRequests()) {</span>
-<span class="nc bnc" id="L212" title="All 2 branches missed.">            if (joinRequest.getJid() == jid)</span>
-<span class="nc" id="L213">                return joinRequest;</span>
-<span class="nc" id="L214">        }</span>
-<span class="fc" id="L215">        return null;</span>
+<span class="fc" id="L214">        Ride ride = getRide(rid);</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">        if (ride == null)</span>
+<span class="nc" id="L216">            return null;</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">        for (JoinRequest joinRequest : ride.getJoinRequests()) {</span>
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">            if (joinRequest.getJid() == jid)</span>
+<span class="fc" id="L219">                return joinRequest;</span>
+<span class="nc" id="L220">        }</span>
+<span class="fc" id="L221">        return null;</span>
     }
 
     private List&lt;Ride&gt; getRides(String from, String to, String date) {
-<span class="fc" id="L219">        List&lt;Ride&gt; queriedRides = new ArrayList&lt;Ride&gt;();</span>
-<span class="fc" id="L220">        String fromKey = from.toLowerCase().trim();</span>
-<span class="fc" id="L221">        String toKey = to.toLowerCase().trim();</span>
-<span class="fc" id="L222">        String dateKey = date.toLowerCase().trim();</span>
-<span class="pc bpc" id="L223" title="1 of 2 branches missed.">        for (Ride ride : rides) {</span>
-<span class="nc" id="L224">            String rideFrom = ride.getLocationInfo().getFromCity().toLowerCase().trim();</span>
-<span class="nc" id="L225">            String rideTo = ride.getLocationInfo().getToCity().toLowerCase().trim();</span>
-<span class="nc" id="L226">            String rideDate = ride.getRideDateTime().getDate().toLowerCase().trim();</span>
-<span class="nc bnc" id="L227" title="All 6 branches missed.">            boolean queryCorrect = fromKey.equals(rideFrom) || toKey.equals(rideTo) || dateKey.equals(rideDate);</span>
-<span class="nc bnc" id="L228" title="All 2 branches missed.">            if (queryCorrect) {</span>
-<span class="nc" id="L229">                queriedRides.add(ride);</span>
+<span class="fc" id="L225">        List&lt;Ride&gt; queriedRides = new ArrayList&lt;Ride&gt;();</span>
+<span class="fc" id="L226">        String fromKey = from.toLowerCase().trim();</span>
+<span class="fc" id="L227">        String toKey = to.toLowerCase().trim();</span>
+<span class="fc" id="L228">        String dateKey = date.toLowerCase().trim();</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">        for (Ride ride : rides) {</span>
+<span class="fc" id="L230">            String rideFrom = ride.getLocationInfo().getFromCity().toLowerCase().trim();</span>
+<span class="fc" id="L231">            String rideTo = ride.getLocationInfo().getToCity().toLowerCase().trim();</span>
+<span class="fc" id="L232">            String rideDate = ride.getRideDateTime().getDate().toLowerCase().trim();</span>
+<span class="pc bpc" id="L233" title="5 of 6 branches missed.">            boolean queryCorrect = fromKey.equals(rideFrom) || toKey.equals(rideTo) || dateKey.equals(rideDate);</span>
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">            if (queryCorrect) {</span>
+<span class="fc" id="L235">                queriedRides.add(ride);</span>
             }
-<span class="nc" id="L231">        }</span>
-<span class="fc" id="L232">        return queriedRides;</span>
+<span class="fc" id="L237">        }</span>
+<span class="fc" id="L238">        return queriedRides;</span>
     }
 
     public JSONObject jsonReport(Report report, String startDate, String endDate, List&lt;Ride&gt; rides) {
-<span class="fc" id="L236">        JSONObject jsonObject = new JSONObject();</span>
-<span class="fc" id="L237">        List&lt;Map&lt;String, Object&gt;&gt; jsonRides = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L238" title="All 2 branches covered.">        for (Ride ride : rides) {</span>
-<span class="fc" id="L239">            jsonRides.add(jsonRideDetail(ride).toMap());</span>
-<span class="fc" id="L240">        }</span>
-<span class="fc" id="L241">        jsonObject.put(&quot;pid&quot;, report.getPid());</span>
-<span class="fc" id="L242">        jsonObject.put(&quot;name&quot;, report.getName());</span>
-<span class="fc" id="L243">        jsonObject.put(&quot;start_date&quot;, startDate);</span>
-<span class="fc" id="L244">        jsonObject.put(&quot;end_date&quot;, endDate);</span>
-<span class="fc" id="L245">        jsonObject.put(&quot;rides&quot;, rides.size());</span>
-<span class="fc" id="L246">        jsonObject.put(&quot;detail&quot;, jsonRides);</span>
-<span class="fc" id="L247">        return jsonObject;</span>
+<span class="fc" id="L242">        JSONObject jsonObject = new JSONObject();</span>
+<span class="fc" id="L243">        List&lt;Map&lt;String, Object&gt;&gt; jsonRides = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">        for (Ride ride : rides) {</span>
+<span class="fc" id="L245">            jsonRides.add(jsonRideDetail(ride).toMap());</span>
+<span class="fc" id="L246">        }</span>
+<span class="fc" id="L247">        jsonObject.put(&quot;pid&quot;, report.getPid());</span>
+<span class="fc" id="L248">        jsonObject.put(&quot;name&quot;, report.getName());</span>
+<span class="fc" id="L249">        jsonObject.put(&quot;start_date&quot;, startDate);</span>
+<span class="fc" id="L250">        jsonObject.put(&quot;end_date&quot;, endDate);</span>
+<span class="fc" id="L251">        jsonObject.put(&quot;rides&quot;, rides.size());</span>
+<span class="fc" id="L252">        jsonObject.put(&quot;detail&quot;, jsonRides);</span>
+<span class="fc" id="L253">        return jsonObject;</span>
     }
 
     public JSONObject jsonMessage(Message message) {
-<span class="nc" id="L251">        JSONObject jsonObject = new JSONObject();</span>
-<span class="nc" id="L252">        jsonObject.put(&quot;mid&quot;, message.getMid());</span>
-<span class="nc" id="L253">        jsonObject.put(&quot;sent_by_aid&quot;, message.getAid());</span>
-<span class="nc" id="L254">        jsonObject.put(&quot;date&quot;, message.getDateCreated());</span>
-<span class="nc" id="L255">        jsonObject.put(&quot;body&quot;, message.getMessage());</span>
-<span class="nc" id="L256">        return jsonObject;</span>
+<span class="fc" id="L257">        JSONObject jsonObject = new JSONObject();</span>
+<span class="fc" id="L258">        jsonObject.put(&quot;mid&quot;, message.getMid());</span>
+<span class="fc" id="L259">        jsonObject.put(&quot;sent_by_aid&quot;, message.getAid());</span>
+<span class="fc" id="L260">        jsonObject.put(&quot;date&quot;, message.getDateCreated());</span>
+<span class="fc" id="L261">        jsonObject.put(&quot;body&quot;, message.getMessage());</span>
+<span class="fc" id="L262">        return jsonObject;</span>
     }
 
     private JSONObject jsonRide(Ride ride) {
-<span class="fc" id="L260">        JSONObject jsonObject = new JSONObject();</span>
-<span class="fc" id="L261">        jsonObject.put(&quot;rid&quot;, ride.getRid());</span>
-<span class="fc" id="L262">        jsonObject.put(&quot;location_info&quot;, ride.getLocationInfo());</span>
-<span class="fc" id="L263">        jsonObject.put(&quot;date_time&quot;, ride.getRideDateTime());</span>
-<span class="fc" id="L264">        return jsonObject;</span>
+<span class="fc" id="L266">        JSONObject jsonObject = new JSONObject();</span>
+<span class="fc" id="L267">        jsonObject.put(&quot;rid&quot;, ride.getRid());</span>
+<span class="fc" id="L268">        jsonObject.put(&quot;location_info&quot;, ride.getLocationInfo());</span>
+<span class="fc" id="L269">        jsonObject.put(&quot;date_time&quot;, ride.getRideDateTime());</span>
+<span class="fc" id="L270">        return jsonObject;</span>
     }
 
     private JSONObject jsonRating(Rating rating) {
-<span class="nc" id="L268">        JSONObject jsonObject = new JSONObject();</span>
-<span class="nc" id="L269">        jsonObject.put(&quot;rid&quot;, rating.getRid());</span>
-<span class="nc" id="L270">        jsonObject.put(&quot;rating&quot;, rating.getRating());</span>
-<span class="nc" id="L271">        jsonObject.put(&quot;comment&quot;, rating.getComment());</span>
-<span class="nc" id="L272">        jsonObject.put(&quot;date&quot;, rating.getRatingDate());</span>
-<span class="nc" id="L273">        return jsonObject;</span>
+<span class="fc" id="L274">        JSONObject jsonObject = new JSONObject();</span>
+<span class="fc" id="L275">        jsonObject.put(&quot;rid&quot;, rating.getRid());</span>
+<span class="fc" id="L276">        jsonObject.put(&quot;rating&quot;, rating.getRating());</span>
+<span class="fc" id="L277">        jsonObject.put(&quot;comment&quot;, rating.getComment());</span>
+<span class="fc" id="L278">        jsonObject.put(&quot;date&quot;, rating.getRatingDate());</span>
+<span class="fc" id="L279">        return jsonObject;</span>
     }
 
     private List&lt;JSONObject&gt; jsonRatings(ArrayList&lt;Rating&gt; ratings) {
-<span class="fc" id="L277">        List&lt;JSONObject&gt; jsonRatings = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L278" title="1 of 2 branches missed.">        for (Rating rating : ratings) {</span>
-<span class="nc" id="L279">            jsonRatings.add(jsonRating(rating));</span>
-<span class="nc" id="L280">        }</span>
-<span class="fc" id="L281">        return jsonRatings;</span>
+<span class="fc" id="L283">        List&lt;JSONObject&gt; jsonRatings = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">        for (Rating rating : ratings) {</span>
+<span class="fc" id="L285">            jsonRatings.add(jsonRating(rating));</span>
+<span class="fc" id="L286">        }</span>
+<span class="fc" id="L287">        return jsonRatings;</span>
     }
 
     double calculateAvgRating(ArrayList&lt;Rating&gt; ratings) {
-<span class="pc bpc" id="L285" title="1 of 2 branches missed.">        if (ratings.size() == 0)</span>
-<span class="fc" id="L286">            return 0;</span>
-<span class="nc" id="L287">        int sum = 0;</span>
-<span class="nc bnc" id="L288" title="All 2 branches missed.">        for (Rating rating : ratings) {</span>
-<span class="nc" id="L289">            sum += rating.getRating();</span>
-<span class="nc" id="L290">        }</span>
-<span class="nc" id="L291">        return (sum / (double) ratings.size());</span>
+<span class="pc bpc" id="L291" title="1 of 2 branches missed.">        if (ratings.size() == 0)</span>
+<span class="nc" id="L292">            return 0;</span>
+<span class="fc" id="L293">        int sum = 0;</span>
+<span class="fc bfc" id="L294" title="All 2 branches covered.">        for (Rating rating : ratings) {</span>
+<span class="fc" id="L295">            sum += rating.getRating();</span>
+<span class="fc" id="L296">        }</span>
+<span class="fc" id="L297">        return (sum / (double) ratings.size());</span>
     }
 
     private JSONObject jsonRideDetailed(Ride ride, UserBoundaryInterface userRepository) {
-<span class="fc" id="L295">        int aid = ride.getAid();</span>
-<span class="fc" id="L296">        User user = userRepository.getUser(aid);</span>
-<span class="fc" id="L297">        JSONObject jsonObject = new JSONObject();</span>
-<span class="fc" id="L298">        List&lt;JSONObject&gt; comments = jsonRatings(user.getRatings());</span>
-<span class="fc" id="L299">        jsonObject.put(&quot;rid&quot;, ride.getRid());</span>
-<span class="fc" id="L300">        jsonObject.put(&quot;location_info&quot;, ride.getLocationInfo());</span>
-<span class="fc" id="L301">        jsonObject.put(&quot;date_time&quot;, ride.getRideDateTime());</span>
-<span class="fc" id="L302">        jsonObject.put(&quot;car_info&quot;, ride.getCar());</span>
-<span class="fc" id="L303">        jsonObject.put(&quot;driver&quot;, user.getFirstName());</span>
-<span class="fc" id="L304">        jsonObject.put(&quot;driver_picture&quot;, user.getPicture());</span>
-<span class="fc" id="L305">        jsonObject.put(&quot;rides&quot;, user.getNumOfRides());</span>
-<span class="fc" id="L306">        jsonObject.put(&quot;ratings&quot;, user.getRatings().size());</span>
-<span class="fc" id="L307">        jsonObject.put(&quot;average_rating&quot;, calculateAvgRating(user.getRatings()));</span>
-<span class="fc" id="L308">        jsonObject.put(&quot;comments_about_driver&quot;, comments);</span>
-<span class="fc" id="L309">        return jsonObject;</span>
+<span class="fc" id="L301">        int aid = ride.getAid();</span>
+<span class="fc" id="L302">        User user = userRepository.getUser(aid);</span>
+<span class="fc" id="L303">        JSONObject jsonObject = new JSONObject();</span>
+<span class="fc" id="L304">        List&lt;JSONObject&gt; comments = jsonRatings(user.getRatings());</span>
+<span class="fc" id="L305">        jsonObject.put(&quot;rid&quot;, ride.getRid());</span>
+<span class="fc" id="L306">        jsonObject.put(&quot;location_info&quot;, ride.getLocationInfo());</span>
+<span class="fc" id="L307">        jsonObject.put(&quot;date_time&quot;, ride.getRideDateTime());</span>
+<span class="fc" id="L308">        jsonObject.put(&quot;car_info&quot;, ride.getCar());</span>
+<span class="fc" id="L309">        jsonObject.put(&quot;driver&quot;, user.getFirstName());</span>
+<span class="fc" id="L310">        jsonObject.put(&quot;driver_picture&quot;, user.getPicture());</span>
+<span class="fc" id="L311">        jsonObject.put(&quot;rides&quot;, user.getNumOfRides());</span>
+<span class="fc" id="L312">        jsonObject.put(&quot;ratings&quot;, user.getRatings().size());</span>
+<span class="fc" id="L313">        jsonObject.put(&quot;average_rating&quot;, calculateAvgRating(user.getRatings()));</span>
+<span class="fc" id="L314">        jsonObject.put(&quot;comments_about_driver&quot;, comments);</span>
+<span class="fc" id="L315">        return jsonObject;</span>
     }
 
     private JSONObject jsonRideDetail(Ride ride) {
-<span class="fc" id="L313">        JSONObject jsonObject = new JSONObject();</span>
-<span class="fc" id="L314">        jsonObject.put(&quot;from_zip&quot;, ride.getLocationInfo().getFromZip());</span>
-<span class="fc" id="L315">        jsonObject.put(&quot;to_zip&quot;, ride.getLocationInfo().getToZip());</span>
-<span class="fc" id="L316">        jsonObject.put(&quot;count&quot;, 1);</span>
-<span class="fc" id="L317">        return jsonObject;</span>
+<span class="fc" id="L319">        JSONObject jsonObject = new JSONObject();</span>
+<span class="fc" id="L320">        jsonObject.put(&quot;from_zip&quot;, ride.getLocationInfo().getFromZip());</span>
+<span class="fc" id="L321">        jsonObject.put(&quot;to_zip&quot;, ride.getLocationInfo().getToZip());</span>
+<span class="fc" id="L322">        jsonObject.put(&quot;count&quot;, 1);</span>
+<span class="fc" id="L323">        return jsonObject;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
